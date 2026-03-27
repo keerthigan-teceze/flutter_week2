@@ -1,5 +1,6 @@
 import 'package:ecommerce/main.dart';
 import 'package:ecommerce/repository/auth_repository.dart';
+import 'package:ecommerce/screens/userscreen.dart';
 import 'package:ecommerce/services/api_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce/screens/adminhomescreen.dart';
@@ -53,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
       } else {
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (_) => const RegisterPage()),
+          MaterialPageRoute(builder: (_) => const UserHomePageScreen()),
               (route) => false,
         );
       }
