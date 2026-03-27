@@ -24,4 +24,5 @@ class ApiManager {
   static ProductApi get productApi => EcommerceApiClient(dio: _dio).getProductApi();
   static AuthApi get authApi => EcommerceApiClient(dio: _dio).getAuthApi();
   static UserApi get userApi => EcommerceApiClient(dio: _dio).getUserApi();
+  static CartApi get cartApi => EcommerceApiClient(dio: _dio).getCartApi();
 }

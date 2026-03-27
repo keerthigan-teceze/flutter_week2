@@ -1,5 +1,9 @@
+import 'package:ecommerce/repository/cart_repository.dart';
 import 'package:ecommerce/repository/product_repository.dart';
+import 'package:ecommerce/screens/my_cart_screen.dart';
+import 'package:ecommerce/screens/orders_screen.dart';
 import 'package:ecommerce/screens/productdetails.dart';
+import 'package:ecommerce/widgets/bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 
 class UserHomePageScreen extends StatefulWidget {
@@ -11,8 +15,12 @@ class UserHomePageScreen extends StatefulWidget {
 
 class _UserHomePageScreenState extends State<UserHomePageScreen> {
   final ProductRepository _productRepo = ProductRepository();
+  final CartRepository cartRepo = CartRepository();
+
   List<Map<String, dynamic>> products = [];
+
   bool isLoading = true;
+  int _selectedIndex = 0;
 
   @override
   void initState() {
@@ -30,6 +38,40 @@ class _UserHomePageScreenState extends State<UserHomePageScreen> {
     } catch (e) {
       print("Error loading products: $e");
       setState(() => isLoading = false);
+    }
+  }
+
+  // ✅ Add to Cart Handler
+  void _handleAddToCart(String productId) async {
+    try {
+      await cartRepo.addToCart(productId);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("✅ Added to cart")),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("❌ Error: $e")),
+      );
+    }
+  }
+
+  // ✅ Bottom Nav Tap Handler
+  void _onNavTap(int index) {
+    setState(() => _selectedIndex = index);
+
+    if (index == 0) {
+      // Home (stay here)
+    } else if (index == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const MyCartScreen()),
+      );
+    } else if (index == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const OrdersScreen()),
+      );
     }
   }
 
@@ -77,31 +119,58 @@ class _UserHomePageScreenState extends State<UserHomePageScreen> {
                   ),
                 ],
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Row(
                 children: [
-                  Text(
-                    products[index]["name"],
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                  // ✅ Product information
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          products[index]["name"],
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 5),
+                        Text("Price: \$${products[index]["price"]}"),
+                        Text("Stock: ${products[index]["stock"]}"),
+                        const SizedBox(height: 10),
+                        Text(
+                          products[index]["description"],
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            color: Colors.black54,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 5),
-                  Text("Price: \$${products[index]["price"]}"),
-                  Text("Stock: ${products[index]["stock"]}"),
-                  const SizedBox(height: 10),
-                  Text(
-                    products[index]["description"],
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(color: Colors.black54),
+
+                  // ✅ Add to Cart Icon
+                  IconButton(
+                    icon: const Icon(
+                      Icons.add_shopping_cart,
+                      color: Colors.green,
+                      size: 28,
+                    ),
+                    onPressed: () {
+                      _handleAddToCart(products[index]["id"]);
+                    },
                   ),
                 ],
               ),
             ),
           );
         },
+      ),
+
+      // ✅ Bottom Nav Bar Added
+      bottomNavigationBar: AppBottomNavBar(
+        currentIndex: _selectedIndex,
+        onTap: _onNavTap,
       ),
     );
   }
