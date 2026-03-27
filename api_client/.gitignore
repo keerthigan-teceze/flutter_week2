@@ -39,6 +39,3 @@ pubspec.lock
 
 # Mac
 .DS_Store
-
-# Ignore build runner logs
-*.build_audit
