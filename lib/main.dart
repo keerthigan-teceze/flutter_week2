@@ -1,3 +1,5 @@
+import 'package:ecommerce/api_client/lib/src/api.dart';
+import 'package:ecommerce/api_service.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -19,6 +21,9 @@ class _mainAppState extends State<mainApp> {
   TextEditingController productstockcontroller = TextEditingController();
   TextEditingController productdescriptioncontroller = TextEditingController();
   List<Map<String,dynamic>> products = [];
+
+  // ApiService apiService = ApiService();
+  final api =EcommerceApiClient().getProductApi();
 
 
 
@@ -80,7 +85,32 @@ class _mainAppState extends State<mainApp> {
                   SizedBox(height: 16),
 
 
-                  MaterialButton(onPressed: (){
+                  MaterialButton(onPressed: () async{
+                    String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYxMzNhMDczLTZkZmUtNDAxZi1hMmMzLTNhNjJjMDQwOGZkOCIsImVtYWlsIjoia2VlcnRoaWdhbkBnbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NzQ1Mjk4NjksImV4cCI6MTc3NDUzMDc2OX0.YspzmIp-XFRCRdGDVAir-OSqk9abY7sk6-rqKorR3Fc";
+                    // String name =productnamecontroller.text;
+                    // String description =productdescriptioncontroller.text;
+                    // double? price = double.tryParse(productpricecontroller.text);
+                    // int? stock = int.tryParse(productstockcontroller.text);
+                    //
+                    // if (name.isEmpty || description.isEmpty || price == null || stock == null){
+                    //   setState(() {
+                    //     displayText="Please fill all the fields";
+                    //   });
+                    //   return;
+                    // }
+                    //
+                    // String result =await apiService.createProduct(
+                    //   name,
+                    //   price,
+                    //   stock,
+                    //   description,
+                    //   token,
+                    //
+                    // );
+                    // print(result);
+
+
+
                     setState(() {
                       productnamecontroller.text.isEmpty ? displayText = "Please Enter Product Name" :
                       productpricecontroller.text.isEmpty ? displayText = "Please Enter Product Price" :
