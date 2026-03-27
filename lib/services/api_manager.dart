@@ -14,15 +14,13 @@ class ApiManager {
     _dio.interceptors.clear();
     _dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) {
-        // Automatically adds "Bearer <token>" to every request
         options.headers['Authorization'] = 'Bearer $token';
         return handler.next(options);
       },
     ));
   }
 
-  // 3. Getters for the generated API classes
-  // These connect the generated logic to our configured Dio instance
+  // 3. API Getters
   static ProductApi get productApi => EcommerceApiClient(dio: _dio).getProductApi();
   static AuthApi get authApi => EcommerceApiClient(dio: _dio).getAuthApi();
   static UserApi get userApi => EcommerceApiClient(dio: _dio).getUserApi();

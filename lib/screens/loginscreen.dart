@@ -1,69 +1,70 @@
+import 'package:ecommerce/main.dart';
 import 'package:ecommerce/repository/auth_repository.dart';
-import 'package:ecommerce/screens/loginscreen.dart';
+import 'package:ecommerce/services/api_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:ecommerce/screens/adminhomescreen.dart';
 
-void main() {
-  runApp(
-    const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: RegisterPage(),
-    ),
-  );
-}
 
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
-  final TextEditingController nameController = TextEditingController();
+class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final auth_Repository _loginRepository= auth_Repository();
 
-  final auth_Repository _registerRepo = auth_Repository();
   bool isPasswordVisible = false;
   bool isLoading = false;
 
-  Future<void> _handleRegister() async {
-    String name = nameController.text.trim();
+  Future<void> _handleLogin() async {
     String email = emailController.text.trim();
     String password = passwordController.text.trim();
 
-    if (name.isEmpty || email.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("All fields are required!")),
-      );
+    if (email.isEmpty || password.isEmpty) {
+      print("Please enter email & password");
       return;
     }
 
     setState(() => isLoading = true);
 
     try {
-      await _registerRepo.registerUser(name, email, password);
+      // ✅ Token + Role from repository
+      final loginData = await _loginRepository.loginUser(email, password);
 
+      final token = loginData["token"];   // ✅ accessToken string
+      final role  = loginData["role"];    // ✅ "admin" or "user"
 
-      setState(() => isLoading = false);
+      print("✅ LOGIN SUCCESS: $token | ROLE: $role");
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("✅ Registration Successful")),
-      );
+      // ✅ Store token globally for all API calls
+      ApiManager.setToken(token);
 
-      // Clear fields
-      nameController.clear();
-      emailController.clear();
-      passwordController.clear();
+      // ✅ ROLE BASED NAVIGATION
+      if (role == "admin") {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => const AdminHomePageScreen()),
+              (route) => false,
+        );
+      } else {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => const RegisterPage()),
+              (route) => false,
+        );
+      }
 
     } catch (e) {
-      setState(() => isLoading = false);
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("❌ Registration Failed: $e")),
-      );
+      print("❌ Login Error: $e");
     }
+
+    setState(() => isLoading = false);
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -74,10 +75,10 @@ class _RegisterPageState extends State<RegisterPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 40),
+            const SizedBox(height: 60),
 
             const Text(
-              "Create Account",
+              "Welcome Back!",
               style: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
@@ -88,25 +89,13 @@ class _RegisterPageState extends State<RegisterPage> {
             const SizedBox(height: 10),
 
             const Text(
-              "Please fill the form to continue",
+              "Login to continue",
               style: TextStyle(fontSize: 16, color: Colors.black54),
             ),
 
             const SizedBox(height: 30),
 
-            TextField(
-              controller: nameController,
-              decoration: InputDecoration(
-                labelText: "Full Name",
-                prefixIcon: const Icon(Icons.person, color: Colors.orange),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
+            // ✅ Email Field
             TextField(
               controller: emailController,
               keyboardType: TextInputType.emailAddress,
@@ -121,6 +110,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
             const SizedBox(height: 20),
 
+            // ✅ Password Field
             TextField(
               controller: passwordController,
               obscureText: !isPasswordVisible,
@@ -129,7 +119,9 @@ class _RegisterPageState extends State<RegisterPage> {
                 prefixIcon: const Icon(Icons.lock, color: Colors.orange),
                 suffixIcon: IconButton(
                   icon: Icon(
-                    isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                    isPasswordVisible
+                        ? Icons.visibility
+                        : Icons.visibility_off,
                     color: Colors.grey,
                   ),
                   onPressed: () {
@@ -146,6 +138,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
             const SizedBox(height: 30),
 
+            // ✅ Login Button
             SizedBox(
               width: double.infinity,
               height: 50,
@@ -156,11 +149,11 @@ class _RegisterPageState extends State<RegisterPage> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                onPressed: isLoading ? null : _handleRegister,
+                onPressed: isLoading ? null : _handleLogin,
                 child: isLoading
                     ? const CircularProgressIndicator(color: Colors.white)
                     : const Text(
-                  "Register",
+                  "Login",
                   style: TextStyle(fontSize: 18, color: Colors.white),
                 ),
               ),
@@ -168,19 +161,21 @@ class _RegisterPageState extends State<RegisterPage> {
 
             const SizedBox(height: 20),
 
+            // ✅ Don't have an account?
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text("Already have an account?", style: TextStyle(fontSize: 14)),
+                const Text("Don't have an account?",
+                    style: TextStyle(fontSize: 14)),
                 TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => const LoginPage()),
-                    );
+                    Navigator.pop(context); // Go back to RegisterPage
                   },
-                  child: const Text("Login", style: TextStyle(color: Colors.orange)),
-                )
+                  child: const Text(
+                    "Register",
+                    style: TextStyle(color: Colors.orange),
+                  ),
+                ),
               ],
             )
           ],

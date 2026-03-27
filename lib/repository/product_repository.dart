@@ -4,14 +4,11 @@ import 'package:ecommerce/services/api_manager.dart';
 import 'package:ecommerce_api_client/ecommerce_api_client.dart';
 
 class ProductRepository {
-  final String _authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYxMzNhMDczLTZkZmUtNDAxZi1hMmMzLTNhNjJjMDQwOGZkOCIsImVtYWlsIjoia2VlcnRoaWdhbkBnbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NzQ1Mjk4NjksImV4cCI6MTc3NDUzMDc2OX0.YspzmIp-XFRCRdGDVAir-OSqk9abY7sk6-rqKorR3Fc";
 
-  // Fetch all products
+  // ✅ Get all products (No token needed here; ApiManager adds it automatically)
   Future<List<Map<String, dynamic>>> getProducts() async {
     try {
-      final response = await ApiManager.productApi.productsGet(
-        headers: {"Authorization": "Bearer $_authToken"},
-      );
+      final response = await ApiManager.productApi.productsGet();
 
       return response.data!.map((product) => {
         "id": product.id,
@@ -25,7 +22,7 @@ class ProductRepository {
     }
   }
 
-  // Add a new product
+  // ✅ Add product
   Future<void> addProduct({
     required String name,
     required double price,
@@ -37,7 +34,8 @@ class ProductRepository {
         ..name = name
         ..price = price
         ..stock = stock
-        ..description = description);
+        ..description = description
+      );
 
       await ApiManager.productApi.productsPost(
         productsPostRequest: request,
@@ -47,8 +45,7 @@ class ProductRepository {
     }
   }
 
-
-  //delete product
+  // ✅ Delete product
   Future<void> deleteProduct(String id) async {
     try {
       await ApiManager.productApi.productsIdDelete(id: id);
@@ -57,8 +54,7 @@ class ProductRepository {
     }
   }
 
-
-  //edit product
+  // ✅ Edit product
   Future<void> editProduct({
     required String id,
     required String name,
@@ -68,22 +64,23 @@ class ProductRepository {
   }) async {
     try {
       final request = ProductsIdPutRequest((b) => b
-          ..name = name
+        ..name = name
         ..price = price
         ..stock = stock
-        ..description = description);
+        ..description = description
+      );
 
       await ApiManager.productApi.productsIdPut(
         id: id,
         productsIdPutRequest: request,
       );
-      } catch (e) {
+    } catch (e) {
       throw Exception("Failed to edit product: $e");
     }
-
   }
-  //single product
-  Future <Map<String, dynamic>> getSingleProduct(String id) async {
+
+  // ✅ Single product
+  Future<Map<String, dynamic>> getSingleProduct(String id) async {
     try {
       final response = await ApiManager.productApi.productsIdGet(id: id);
       return {
@@ -97,10 +94,4 @@ class ProductRepository {
       throw Exception("Failed to fetch product: $e");
     }
   }
-
 }
-
-
-
-
-
