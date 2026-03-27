@@ -8,8 +8,10 @@ import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
+import 'package:ecommerce_api_client/src/model/auth_register_post409_response.dart';
 import 'package:ecommerce_api_client/src/model/orders_post200_response.dart';
 import 'package:ecommerce_api_client/src/model/orders_post_request.dart';
+import 'package:ecommerce_api_client/src/model/users_id_put400_response.dart';
 
 class OrderApi {
   final Dio _dio;
@@ -19,9 +21,10 @@ class OrderApi {
   const OrderApi(this._dio, this._serializers);
 
   /// Create a new order
-  /// Creates a new order from explicit items, or from the authenticated user&#39;s cart when &#x60;items&#x60; is omitted.
+  /// Creates an order for the authenticated user. If &#x60;items&#x60; is omitted, the API checks out the user&#39;s cart directly. Stock is decremented immediately during order creation rather than using a separate reservation lifecycle.
   ///
   /// Parameters:
+  /// * [idempotencyKey] - Required for POST /orders. Reusing the same key returns the cached order response.
   /// * [ordersPostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
@@ -33,6 +36,7 @@ class OrderApi {
   /// Returns a [Future] containing a [Response] with a [OrdersPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
   Future<Response<OrdersPost200Response>> ordersPost({
+    required String idempotencyKey,
     OrdersPostRequest? ordersPostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -45,6 +49,7 @@ class OrderApi {
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
+        r'idempotency-key': idempotencyKey,
         ...?headers,
       },
       extra: <String, dynamic>{

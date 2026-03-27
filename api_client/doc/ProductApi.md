@@ -21,7 +21,7 @@ Method | HTTP request | Description
 
 Get all products
 
-Retrieves a list of all products
+Returns all products visible to an authenticated user.
 
 ### Example
 ```dart
@@ -60,14 +60,14 @@ This endpoint does not need any parameter.
 
 Delete a product by ID
 
-Deletes a product by its ID
+Deletes a product by UUID. This endpoint requires an authenticated admin token.
 
 ### Example
 ```dart
 import 'package:ecommerce_api_client/api.dart';
 
 final api = EcommerceApiClient().getProductApi();
-final String id = id_example; // String | 
+final String id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
     final response = api.productsIdDelete(id);
@@ -103,14 +103,14 @@ Name | Type | Description  | Notes
 
 Get a product by ID
 
-Retrieves a product by its ID
+Returns a single product by UUID for an authenticated user.
 
 ### Example
 ```dart
 import 'package:ecommerce_api_client/api.dart';
 
 final api = EcommerceApiClient().getProductApi();
-final String id = id_example; // String | 
+final String id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
     final response = api.productsIdGet(id);
@@ -146,14 +146,14 @@ Name | Type | Description  | Notes
 
 Update a product by ID
 
-Updates a product by its ID
+Updates a product by UUID. This endpoint requires an authenticated admin token.
 
 ### Example
 ```dart
 import 'package:ecommerce_api_client/api.dart';
 
 final api = EcommerceApiClient().getProductApi();
-final String id = id_example; // String | 
+final String id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 final ProductsIdPutRequest productsIdPutRequest = ; // ProductsIdPutRequest | 
 
 try {
@@ -191,7 +191,7 @@ Name | Type | Description  | Notes
 
 Create a new product
 
-Creates a new product with the provided details
+Creates a product. This endpoint requires an authenticated user token. Product creation is not currently admin-only in the implementation.
 
 ### Example
 ```dart

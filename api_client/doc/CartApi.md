@@ -60,7 +60,7 @@ This endpoint does not need any parameter.
 
 Get current cart
 
-Returns the authenticated user's cart, creating an empty cart if one does not exist yet.
+Returns the authenticated user's cart. If the user has no cart yet, an empty cart is created on demand.
 
 ### Example
 ```dart
@@ -95,21 +95,21 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **cartItemsPost**
-> CartGet200Response cartItemsPost(ordersPostRequestItemsInner)
+> CartGet200Response cartItemsPost(cartItemsPostRequest)
 
 Add item to cart
 
-Adds a product to the authenticated user's cart, incrementing quantity if the item already exists.
+Adds a product to the authenticated user's cart. If the product is already present, the quantity is incremented.
 
 ### Example
 ```dart
 import 'package:ecommerce_api_client/api.dart';
 
 final api = EcommerceApiClient().getCartApi();
-final OrdersPostRequestItemsInner ordersPostRequestItemsInner = ; // OrdersPostRequestItemsInner | 
+final CartItemsPostRequest cartItemsPostRequest = ; // CartItemsPostRequest | 
 
 try {
-    final response = api.cartItemsPost(ordersPostRequestItemsInner);
+    final response = api.cartItemsPost(cartItemsPostRequest);
     print(response);
 } catch on DioException (e) {
     print('Exception when calling CartApi->cartItemsPost: $e\n');
@@ -120,7 +120,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ordersPostRequestItemsInner** | [**OrdersPostRequestItemsInner**](OrdersPostRequestItemsInner.md)|  | [optional] 
+ **cartItemsPostRequest** | [**CartItemsPostRequest**](CartItemsPostRequest.md)|  | [optional] 
 
 ### Return type
 
@@ -185,7 +185,7 @@ Name | Type | Description  | Notes
 
 Update cart item quantity
 
-Sets a new quantity for a cart item belonging to the authenticated user.
+Sets a new quantity for a specific product already in the authenticated user's cart.
 
 ### Example
 ```dart

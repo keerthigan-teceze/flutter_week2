@@ -9,12 +9,16 @@ part of 'products_id_delete200_response.dart';
 class _$ProductsIdDelete200Response extends ProductsIdDelete200Response {
   @override
   final String message;
+  @override
+  final ProductsGet200ResponseInner product;
 
   factory _$ProductsIdDelete200Response(
           [void Function(ProductsIdDelete200ResponseBuilder)? updates]) =>
       (ProductsIdDelete200ResponseBuilder()..update(updates))._build();
 
-  _$ProductsIdDelete200Response._({required this.message}) : super._();
+  _$ProductsIdDelete200Response._(
+      {required this.message, required this.product})
+      : super._();
   @override
   ProductsIdDelete200Response rebuild(
           void Function(ProductsIdDelete200ResponseBuilder) updates) =>
@@ -27,13 +31,16 @@ class _$ProductsIdDelete200Response extends ProductsIdDelete200Response {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is ProductsIdDelete200Response && message == other.message;
+    return other is ProductsIdDelete200Response &&
+        message == other.message &&
+        product == other.product;
   }
 
   @override
   int get hashCode {
     var _$hash = 0;
     _$hash = $jc(_$hash, message.hashCode);
+    _$hash = $jc(_$hash, product.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
   }
@@ -41,7 +48,8 @@ class _$ProductsIdDelete200Response extends ProductsIdDelete200Response {
   @override
   String toString() {
     return (newBuiltValueToStringHelper(r'ProductsIdDelete200Response')
-          ..add('message', message))
+          ..add('message', message)
+          ..add('product', product))
         .toString();
   }
 }
@@ -56,6 +64,12 @@ class ProductsIdDelete200ResponseBuilder
   String? get message => _$this._message;
   set message(String? message) => _$this._message = message;
 
+  ProductsGet200ResponseInnerBuilder? _product;
+  ProductsGet200ResponseInnerBuilder get product =>
+      _$this._product ??= ProductsGet200ResponseInnerBuilder();
+  set product(ProductsGet200ResponseInnerBuilder? product) =>
+      _$this._product = product;
+
   ProductsIdDelete200ResponseBuilder() {
     ProductsIdDelete200Response._defaults(this);
   }
@@ -64,6 +78,7 @@ class ProductsIdDelete200ResponseBuilder
     final $v = _$v;
     if ($v != null) {
       _message = $v.message;
+      _product = $v.product.toBuilder();
       _$v = null;
     }
     return this;
@@ -83,11 +98,25 @@ class ProductsIdDelete200ResponseBuilder
   ProductsIdDelete200Response build() => _build();
 
   _$ProductsIdDelete200Response _build() {
-    final _$result = _$v ??
-        _$ProductsIdDelete200Response._(
-          message: BuiltValueNullFieldError.checkNotNull(
-              message, r'ProductsIdDelete200Response', 'message'),
-        );
+    _$ProductsIdDelete200Response _$result;
+    try {
+      _$result = _$v ??
+          _$ProductsIdDelete200Response._(
+            message: BuiltValueNullFieldError.checkNotNull(
+                message, r'ProductsIdDelete200Response', 'message'),
+            product: product.build(),
+          );
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'product';
+        product.build();
+      } catch (e) {
+        throw BuiltValueNestedFieldError(
+            r'ProductsIdDelete200Response', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

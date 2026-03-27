@@ -21,7 +21,7 @@ Method | HTTP request | Description
 
 Get all users
 
-Retrieves a list of all users
+Returns all users. This endpoint requires an authenticated admin token.
 
 ### Example
 ```dart
@@ -56,18 +56,18 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **usersIdDelete**
-> ProductsIdDelete200Response usersIdDelete(id)
+> UsersIdDelete200Response usersIdDelete(id)
 
 Delete a user by ID
 
-Deletes a user by its ID
+Deletes a user by UUID for an authenticated user.
 
 ### Example
 ```dart
 import 'package:ecommerce_api_client/api.dart';
 
 final api = EcommerceApiClient().getUserApi();
-final String id = id_example; // String | 
+final String id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
     final response = api.usersIdDelete(id);
@@ -85,7 +85,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ProductsIdDelete200Response**](ProductsIdDelete200Response.md)
+[**UsersIdDelete200Response**](UsersIdDelete200Response.md)
 
 ### Authorization
 
@@ -103,14 +103,14 @@ Name | Type | Description  | Notes
 
 Get a user by ID
 
-Retrieves a user by its ID
+Returns a single user by UUID for an authenticated user.
 
 ### Example
 ```dart
 import 'package:ecommerce_api_client/api.dart';
 
 final api = EcommerceApiClient().getUserApi();
-final String id = id_example; // String | 
+final String id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
     final response = api.usersIdGet(id);
@@ -146,14 +146,14 @@ Name | Type | Description  | Notes
 
 Update a user by ID
 
-Updates a user by its ID
+Updates a user by UUID for an authenticated user. Password updates are re-hashed before persistence.
 
 ### Example
 ```dart
 import 'package:ecommerce_api_client/api.dart';
 
 final api = EcommerceApiClient().getUserApi();
-final String id = id_example; // String | 
+final String id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 final UsersIdPutRequest usersIdPutRequest = ; // UsersIdPutRequest | 
 
 try {
@@ -187,21 +187,21 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **usersPost**
-> UsersGet200ResponseInner usersPost(usersPostRequest)
+> UsersGet200ResponseInner usersPost(authRegisterPostRequest)
 
 Create a new user
 
-Creates a new user with the provided details
+Creates a user record. This endpoint requires an authenticated admin token. Passwords are stored hashed by the service layer.
 
 ### Example
 ```dart
 import 'package:ecommerce_api_client/api.dart';
 
 final api = EcommerceApiClient().getUserApi();
-final UsersPostRequest usersPostRequest = ; // UsersPostRequest | 
+final AuthRegisterPostRequest authRegisterPostRequest = ; // AuthRegisterPostRequest | 
 
 try {
-    final response = api.usersPost(usersPostRequest);
+    final response = api.usersPost(authRegisterPostRequest);
     print(response);
 } catch on DioException (e) {
     print('Exception when calling UserApi->usersPost: $e\n');
@@ -212,7 +212,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **usersPostRequest** | [**UsersPostRequest**](UsersPostRequest.md)|  | [optional] 
+ **authRegisterPostRequest** | [**AuthRegisterPostRequest**](AuthRegisterPostRequest.md)|  | [optional] 
 
 ### Return type
 

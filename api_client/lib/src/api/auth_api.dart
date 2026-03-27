@@ -11,7 +11,9 @@ import 'package:dio/dio.dart';
 import 'package:ecommerce_api_client/src/model/auth_login_post_request.dart';
 import 'package:ecommerce_api_client/src/model/auth_refresh_post_request.dart';
 import 'package:ecommerce_api_client/src/model/auth_register_post200_response.dart';
-import 'package:ecommerce_api_client/src/model/users_post_request.dart';
+import 'package:ecommerce_api_client/src/model/auth_register_post400_response.dart';
+import 'package:ecommerce_api_client/src/model/auth_register_post409_response.dart';
+import 'package:ecommerce_api_client/src/model/auth_register_post_request.dart';
 
 class AuthApi {
   final Dio _dio;
@@ -21,7 +23,7 @@ class AuthApi {
   const AuthApi(this._dio, this._serializers);
 
   /// Login
-  /// Authenticates a user and returns access + refresh tokens.
+  /// Authenticates a user and returns access and refresh tokens.
   ///
   /// Parameters:
   /// * [authLoginPostRequest]
@@ -50,13 +52,7 @@ class AuthApi {
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[
-          {
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'bearerAuth',
-          },
-        ],
+        'secure': <Map<String, String>>[],
         ...?extra,
       },
       contentType: 'application/json',
@@ -124,7 +120,7 @@ class AuthApi {
   }
 
   /// Refresh tokens
-  /// Uses a refresh token to issue a new access + refresh token pair.
+  /// Uses a refresh token to issue a new access and refresh token pair.
   ///
   /// Parameters:
   /// * [authRefreshPostRequest]
@@ -153,13 +149,7 @@ class AuthApi {
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[
-          {
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'bearerAuth',
-          },
-        ],
+        'secure': <Map<String, String>>[],
         ...?extra,
       },
       contentType: 'application/json',
@@ -228,10 +218,10 @@ class AuthApi {
   }
 
   /// Register a new user
-  /// Creates a new user account and returns access + refresh tokens.
+  /// Creates a new user account and returns access and refresh tokens. The request may include a role field, which currently matches the implementation contract.
   ///
   /// Parameters:
-  /// * [usersPostRequest]
+  /// * [authRegisterPostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -242,7 +232,7 @@ class AuthApi {
   /// Returns a [Future] containing a [Response] with a [AuthRegisterPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
   Future<Response<AuthRegisterPost200Response>> authRegisterPost({
-    UsersPostRequest? usersPostRequest,
+    AuthRegisterPostRequest? authRegisterPostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -257,13 +247,7 @@ class AuthApi {
         ...?headers,
       },
       extra: <String, dynamic>{
-        'secure': <Map<String, String>>[
-          {
-            'type': 'http',
-            'scheme': 'bearer',
-            'name': 'bearerAuth',
-          },
-        ],
+        'secure': <Map<String, String>>[],
         ...?extra,
       },
       contentType: 'application/json',
@@ -273,10 +257,11 @@ class AuthApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(UsersPostRequest);
-      _bodyData = usersPostRequest == null
+      const _type = FullType(AuthRegisterPostRequest);
+      _bodyData = authRegisterPostRequest == null
           ? null
-          : _serializers.serialize(usersPostRequest, specifiedType: _type);
+          : _serializers.serialize(authRegisterPostRequest,
+              specifiedType: _type);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _options.compose(

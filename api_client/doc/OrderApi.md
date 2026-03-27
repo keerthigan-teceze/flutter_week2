@@ -13,21 +13,22 @@ Method | HTTP request | Description
 
 
 # **ordersPost**
-> OrdersPost200Response ordersPost(ordersPostRequest)
+> OrdersPost200Response ordersPost(idempotencyKey, ordersPostRequest)
 
 Create a new order
 
-Creates a new order from explicit items, or from the authenticated user's cart when `items` is omitted.
+Creates an order for the authenticated user. If `items` is omitted, the API checks out the user's cart directly. Stock is decremented immediately during order creation rather than using a separate reservation lifecycle.
 
 ### Example
 ```dart
 import 'package:ecommerce_api_client/api.dart';
 
 final api = EcommerceApiClient().getOrderApi();
+final String idempotencyKey = checkout-2026-03-27-001; // String | Required for POST /orders. Reusing the same key returns the cached order response.
 final OrdersPostRequest ordersPostRequest = ; // OrdersPostRequest | 
 
 try {
-    final response = api.ordersPost(ordersPostRequest);
+    final response = api.ordersPost(idempotencyKey, ordersPostRequest);
     print(response);
 } catch on DioException (e) {
     print('Exception when calling OrderApi->ordersPost: $e\n');
@@ -38,6 +39,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **idempotencyKey** | **String**| Required for POST /orders. Reusing the same key returns the cached order response. | 
  **ordersPostRequest** | [**OrdersPostRequest**](OrdersPostRequest.md)|  | [optional] 
 
 ### Return type

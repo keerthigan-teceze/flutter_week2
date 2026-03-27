@@ -3,63 +3,63 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:built_collection/built_collection.dart';
-import 'package:ecommerce_api_client/src/model/cart_items_post_request.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
-part 'orders_post_request.g.dart';
+part 'auth_register_post409_response.g.dart';
 
-/// OrdersPostRequest
+/// AuthRegisterPost409Response
 ///
 /// Properties:
-/// * [items]
+/// * [message]
 @BuiltValue()
-abstract class OrdersPostRequest
-    implements Built<OrdersPostRequest, OrdersPostRequestBuilder> {
-  @BuiltValueField(wireName: r'items')
-  BuiltList<CartItemsPostRequest>? get items;
+abstract class AuthRegisterPost409Response
+    implements
+        Built<AuthRegisterPost409Response, AuthRegisterPost409ResponseBuilder> {
+  @BuiltValueField(wireName: r'message')
+  String get message;
 
-  OrdersPostRequest._();
+  AuthRegisterPost409Response._();
 
-  factory OrdersPostRequest([void updates(OrdersPostRequestBuilder b)]) =
-      _$OrdersPostRequest;
+  factory AuthRegisterPost409Response(
+          [void updates(AuthRegisterPost409ResponseBuilder b)]) =
+      _$AuthRegisterPost409Response;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(OrdersPostRequestBuilder b) => b;
+  static void _defaults(AuthRegisterPost409ResponseBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<OrdersPostRequest> get serializer =>
-      _$OrdersPostRequestSerializer();
+  static Serializer<AuthRegisterPost409Response> get serializer =>
+      _$AuthRegisterPost409ResponseSerializer();
 }
 
-class _$OrdersPostRequestSerializer
-    implements PrimitiveSerializer<OrdersPostRequest> {
+class _$AuthRegisterPost409ResponseSerializer
+    implements PrimitiveSerializer<AuthRegisterPost409Response> {
   @override
-  final Iterable<Type> types = const [OrdersPostRequest, _$OrdersPostRequest];
+  final Iterable<Type> types = const [
+    AuthRegisterPost409Response,
+    _$AuthRegisterPost409Response
+  ];
 
   @override
-  final String wireName = r'OrdersPostRequest';
+  final String wireName = r'AuthRegisterPost409Response';
 
   Iterable<Object?> _serializeProperties(
     Serializers serializers,
-    OrdersPostRequest object, {
+    AuthRegisterPost409Response object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    if (object.items != null) {
-      yield r'items';
-      yield serializers.serialize(
-        object.items,
-        specifiedType:
-            const FullType(BuiltList, [FullType(CartItemsPostRequest)]),
-      );
-    }
+    yield r'message';
+    yield serializers.serialize(
+      object.message,
+      specifiedType: const FullType(String),
+    );
   }
 
   @override
   Object serialize(
     Serializers serializers,
-    OrdersPostRequest object, {
+    AuthRegisterPost409Response object, {
     FullType specifiedType = FullType.unspecified,
   }) {
     return _serializeProperties(serializers, object,
@@ -72,20 +72,19 @@ class _$OrdersPostRequestSerializer
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
     required List<Object?> serializedList,
-    required OrdersPostRequestBuilder result,
+    required AuthRegisterPost409ResponseBuilder result,
     required List<Object?> unhandled,
   }) {
     for (var i = 0; i < serializedList.length; i += 2) {
       final key = serializedList[i] as String;
       final value = serializedList[i + 1];
       switch (key) {
-        case r'items':
+        case r'message':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType:
-                const FullType(BuiltList, [FullType(CartItemsPostRequest)]),
-          ) as BuiltList<CartItemsPostRequest>;
-          result.items.replace(valueDes);
+            specifiedType: const FullType(String),
+          ) as String;
+          result.message = valueDes;
           break;
         default:
           unhandled.add(key);
@@ -96,12 +95,12 @@ class _$OrdersPostRequestSerializer
   }
 
   @override
-  OrdersPostRequest deserialize(
+  AuthRegisterPost409Response deserialize(
     Serializers serializers,
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    final result = OrdersPostRequestBuilder();
+    final result = AuthRegisterPost409ResponseBuilder();
     final serializedList = (serialized as Iterable<Object?>).toList();
     final unhandled = <Object?>[];
     _deserializeProperties(

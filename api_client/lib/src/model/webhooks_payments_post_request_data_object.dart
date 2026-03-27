@@ -23,8 +23,7 @@ abstract class WebhooksPaymentsPostRequestDataObject
   @BuiltValueField(wireName: r'providerRef')
   String? get providerRef;
 
-  // @BuiltValueField(wireName: r'provider_ref')
-  // String? get providerRef;
+
 
   @BuiltValueField(wireName: r'metadata')
   WebhooksPaymentsPostRequestDataObjectMetadata? get metadata;

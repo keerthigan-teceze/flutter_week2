@@ -8,7 +8,7 @@ part of 'orders_post_request.dart';
 
 class _$OrdersPostRequest extends OrdersPostRequest {
   @override
-  final BuiltList<OrdersPostRequestItemsInner>? items;
+  final BuiltList<CartItemsPostRequest>? items;
 
   factory _$OrdersPostRequest(
           [void Function(OrdersPostRequestBuilder)? updates]) =>
@@ -49,11 +49,10 @@ class OrdersPostRequestBuilder
     implements Builder<OrdersPostRequest, OrdersPostRequestBuilder> {
   _$OrdersPostRequest? _$v;
 
-  ListBuilder<OrdersPostRequestItemsInner>? _items;
-  ListBuilder<OrdersPostRequestItemsInner> get items =>
-      _$this._items ??= ListBuilder<OrdersPostRequestItemsInner>();
-  set items(ListBuilder<OrdersPostRequestItemsInner>? items) =>
-      _$this._items = items;
+  ListBuilder<CartItemsPostRequest>? _items;
+  ListBuilder<CartItemsPostRequest> get items =>
+      _$this._items ??= ListBuilder<CartItemsPostRequest>();
+  set items(ListBuilder<CartItemsPostRequest>? items) => _$this._items = items;
 
   OrdersPostRequestBuilder() {
     OrdersPostRequest._defaults(this);

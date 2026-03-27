@@ -3,55 +3,55 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:ecommerce_api_client/src/model/products_get200_response_inner.dart';
+import 'package:ecommerce_api_client/src/model/users_get200_response_inner.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
-part 'products_id_delete200_response.g.dart';
+part 'users_id_delete200_response.g.dart';
 
-/// ProductsIdDelete200Response
+/// UsersIdDelete200Response
 ///
 /// Properties:
 /// * [message]
-/// * [product]
+/// * [user]
 @BuiltValue()
-abstract class ProductsIdDelete200Response
+abstract class UsersIdDelete200Response
     implements
-        Built<ProductsIdDelete200Response, ProductsIdDelete200ResponseBuilder> {
+        Built<UsersIdDelete200Response, UsersIdDelete200ResponseBuilder> {
   @BuiltValueField(wireName: r'message')
   String get message;
 
-  @BuiltValueField(wireName: r'product')
-  ProductsGet200ResponseInner get product;
+  @BuiltValueField(wireName: r'user')
+  UsersGet200ResponseInner get user;
 
-  ProductsIdDelete200Response._();
+  UsersIdDelete200Response._();
 
-  factory ProductsIdDelete200Response(
-          [void updates(ProductsIdDelete200ResponseBuilder b)]) =
-      _$ProductsIdDelete200Response;
+  factory UsersIdDelete200Response(
+          [void updates(UsersIdDelete200ResponseBuilder b)]) =
+      _$UsersIdDelete200Response;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(ProductsIdDelete200ResponseBuilder b) => b;
+  static void _defaults(UsersIdDelete200ResponseBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ProductsIdDelete200Response> get serializer =>
-      _$ProductsIdDelete200ResponseSerializer();
+  static Serializer<UsersIdDelete200Response> get serializer =>
+      _$UsersIdDelete200ResponseSerializer();
 }
 
-class _$ProductsIdDelete200ResponseSerializer
-    implements PrimitiveSerializer<ProductsIdDelete200Response> {
+class _$UsersIdDelete200ResponseSerializer
+    implements PrimitiveSerializer<UsersIdDelete200Response> {
   @override
   final Iterable<Type> types = const [
-    ProductsIdDelete200Response,
-    _$ProductsIdDelete200Response
+    UsersIdDelete200Response,
+    _$UsersIdDelete200Response
   ];
 
   @override
-  final String wireName = r'ProductsIdDelete200Response';
+  final String wireName = r'UsersIdDelete200Response';
 
   Iterable<Object?> _serializeProperties(
     Serializers serializers,
-    ProductsIdDelete200Response object, {
+    UsersIdDelete200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     yield r'message';
@@ -59,17 +59,17 @@ class _$ProductsIdDelete200ResponseSerializer
       object.message,
       specifiedType: const FullType(String),
     );
-    yield r'product';
+    yield r'user';
     yield serializers.serialize(
-      object.product,
-      specifiedType: const FullType(ProductsGet200ResponseInner),
+      object.user,
+      specifiedType: const FullType(UsersGet200ResponseInner),
     );
   }
 
   @override
   Object serialize(
     Serializers serializers,
-    ProductsIdDelete200Response object, {
+    UsersIdDelete200Response object, {
     FullType specifiedType = FullType.unspecified,
   }) {
     return _serializeProperties(serializers, object,
@@ -82,7 +82,7 @@ class _$ProductsIdDelete200ResponseSerializer
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
     required List<Object?> serializedList,
-    required ProductsIdDelete200ResponseBuilder result,
+    required UsersIdDelete200ResponseBuilder result,
     required List<Object?> unhandled,
   }) {
     for (var i = 0; i < serializedList.length; i += 2) {
@@ -96,12 +96,12 @@ class _$ProductsIdDelete200ResponseSerializer
           ) as String;
           result.message = valueDes;
           break;
-        case r'product':
+        case r'user':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(ProductsGet200ResponseInner),
-          ) as ProductsGet200ResponseInner;
-          result.product.replace(valueDes);
+            specifiedType: const FullType(UsersGet200ResponseInner),
+          ) as UsersGet200ResponseInner;
+          result.user.replace(valueDes);
           break;
         default:
           unhandled.add(key);
@@ -112,12 +112,12 @@ class _$ProductsIdDelete200ResponseSerializer
   }
 
   @override
-  ProductsIdDelete200Response deserialize(
+  UsersIdDelete200Response deserialize(
     Serializers serializers,
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    final result = ProductsIdDelete200ResponseBuilder();
+    final result = UsersIdDelete200ResponseBuilder();
     final serializedList = (serialized as Iterable<Object?>).toList();
     final unhandled = <Object?>[];
     _deserializeProperties(

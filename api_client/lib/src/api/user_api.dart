@@ -10,10 +10,13 @@ import 'package:dio/dio.dart';
 
 import 'package:built_collection/built_collection.dart';
 import 'package:ecommerce_api_client/src/api_util.dart';
-import 'package:ecommerce_api_client/src/model/products_id_delete200_response.dart';
+import 'package:ecommerce_api_client/src/model/auth_register_post400_response.dart';
+import 'package:ecommerce_api_client/src/model/auth_register_post409_response.dart';
+import 'package:ecommerce_api_client/src/model/auth_register_post_request.dart';
 import 'package:ecommerce_api_client/src/model/users_get200_response_inner.dart';
+import 'package:ecommerce_api_client/src/model/users_id_delete200_response.dart';
+import 'package:ecommerce_api_client/src/model/users_id_put400_response.dart';
 import 'package:ecommerce_api_client/src/model/users_id_put_request.dart';
-import 'package:ecommerce_api_client/src/model/users_post_request.dart';
 
 class UserApi {
   final Dio _dio;
@@ -23,7 +26,7 @@ class UserApi {
   const UserApi(this._dio, this._serializers);
 
   /// Get all users
-  /// Retrieves a list of all users
+  /// Returns all users. This endpoint requires an authenticated admin token.
   ///
   /// Parameters:
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
@@ -104,7 +107,7 @@ class UserApi {
   }
 
   /// Delete a user by ID
-  /// Deletes a user by its ID
+  /// Deletes a user by UUID for an authenticated user.
   ///
   /// Parameters:
   /// * [id]
@@ -115,9 +118,9 @@ class UserApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [ProductsIdDelete200Response] as data
+  /// Returns a [Future] containing a [Response] with a [UsersIdDelete200Response] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<ProductsIdDelete200Response>> usersIdDelete({
+  Future<Response<UsersIdDelete200Response>> usersIdDelete({
     required String id,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -156,7 +159,7 @@ class UserApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    ProductsIdDelete200Response? _responseData;
+    UsersIdDelete200Response? _responseData;
 
     try {
       final rawResponse = _response.data;
@@ -164,8 +167,8 @@ class UserApi {
           ? null
           : _serializers.deserialize(
               rawResponse,
-              specifiedType: const FullType(ProductsIdDelete200Response),
-            ) as ProductsIdDelete200Response;
+              specifiedType: const FullType(UsersIdDelete200Response),
+            ) as UsersIdDelete200Response;
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -176,7 +179,7 @@ class UserApi {
       );
     }
 
-    return Response<ProductsIdDelete200Response>(
+    return Response<UsersIdDelete200Response>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,
@@ -189,7 +192,7 @@ class UserApi {
   }
 
   /// Get a user by ID
-  /// Retrieves a user by its ID
+  /// Returns a single user by UUID for an authenticated user.
   ///
   /// Parameters:
   /// * [id]
@@ -274,7 +277,7 @@ class UserApi {
   }
 
   /// Update a user by ID
-  /// Updates a user by its ID
+  /// Updates a user by UUID for an authenticated user. Password updates are re-hashed before persistence.
   ///
   /// Parameters:
   /// * [id]
@@ -382,10 +385,10 @@ class UserApi {
   }
 
   /// Create a new user
-  /// Creates a new user with the provided details
+  /// Creates a user record. This endpoint requires an authenticated admin token. Passwords are stored hashed by the service layer.
   ///
   /// Parameters:
-  /// * [usersPostRequest]
+  /// * [authRegisterPostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -396,7 +399,7 @@ class UserApi {
   /// Returns a [Future] containing a [Response] with a [UsersGet200ResponseInner] as data
   /// Throws [DioException] if API call or serialization fails
   Future<Response<UsersGet200ResponseInner>> usersPost({
-    UsersPostRequest? usersPostRequest,
+    AuthRegisterPostRequest? authRegisterPostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -427,10 +430,11 @@ class UserApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(UsersPostRequest);
-      _bodyData = usersPostRequest == null
+      const _type = FullType(AuthRegisterPostRequest);
+      _bodyData = authRegisterPostRequest == null
           ? null
-          : _serializers.serialize(usersPostRequest, specifiedType: _type);
+          : _serializers.serialize(authRegisterPostRequest,
+              specifiedType: _type);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _options.compose(

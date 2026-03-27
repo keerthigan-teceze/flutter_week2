@@ -9,9 +9,12 @@ import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
 import 'package:ecommerce_api_client/src/api_util.dart';
+import 'package:ecommerce_api_client/src/model/auth_register_post400_response.dart';
+import 'package:ecommerce_api_client/src/model/auth_register_post409_response.dart';
 import 'package:ecommerce_api_client/src/model/cart_get200_response.dart';
+import 'package:ecommerce_api_client/src/model/cart_items_post_request.dart';
 import 'package:ecommerce_api_client/src/model/cart_items_product_id_put_request.dart';
-import 'package:ecommerce_api_client/src/model/orders_post_request_items_inner.dart';
+import 'package:ecommerce_api_client/src/model/users_id_put400_response.dart';
 
 class CartApi {
   final Dio _dio;
@@ -101,7 +104,7 @@ class CartApi {
   }
 
   /// Get current cart
-  /// Returns the authenticated user&#39;s cart, creating an empty cart if one does not exist yet.
+  /// Returns the authenticated user&#39;s cart. If the user has no cart yet, an empty cart is created on demand.
   ///
   /// Parameters:
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
@@ -181,10 +184,10 @@ class CartApi {
   }
 
   /// Add item to cart
-  /// Adds a product to the authenticated user&#39;s cart, incrementing quantity if the item already exists.
+  /// Adds a product to the authenticated user&#39;s cart. If the product is already present, the quantity is incremented.
   ///
   /// Parameters:
-  /// * [ordersPostRequestItemsInner]
+  /// * [cartItemsPostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -195,7 +198,7 @@ class CartApi {
   /// Returns a [Future] containing a [Response] with a [CartGet200Response] as data
   /// Throws [DioException] if API call or serialization fails
   Future<Response<CartGet200Response>> cartItemsPost({
-    OrdersPostRequestItemsInner? ordersPostRequestItemsInner,
+    CartItemsPostRequest? cartItemsPostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -226,11 +229,10 @@ class CartApi {
     dynamic _bodyData;
 
     try {
-      const _type = FullType(OrdersPostRequestItemsInner);
-      _bodyData = ordersPostRequestItemsInner == null
+      const _type = FullType(CartItemsPostRequest);
+      _bodyData = cartItemsPostRequest == null
           ? null
-          : _serializers.serialize(ordersPostRequestItemsInner,
-              specifiedType: _type);
+          : _serializers.serialize(cartItemsPostRequest, specifiedType: _type);
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _options.compose(
@@ -370,7 +372,7 @@ class CartApi {
   }
 
   /// Update cart item quantity
-  /// Sets a new quantity for a cart item belonging to the authenticated user.
+  /// Sets a new quantity for a specific product already in the authenticated user&#39;s cart.
   ///
   /// Parameters:
   /// * [productId]

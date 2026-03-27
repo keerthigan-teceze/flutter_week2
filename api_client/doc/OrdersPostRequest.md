@@ -8,7 +8,7 @@ import 'package:ecommerce_api_client/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**items** | [**BuiltList&lt;OrdersPostRequestItemsInner&gt;**](OrdersPostRequestItemsInner.md) |  | [optional] 
+**items** | [**BuiltList&lt;CartItemsPostRequest&gt;**](CartItemsPostRequest.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

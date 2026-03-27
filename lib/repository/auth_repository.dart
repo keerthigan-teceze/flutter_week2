@@ -4,13 +4,13 @@ import 'package:ecommerce_api_client/ecommerce_api_client.dart';
 class auth_Repository {
 
   Future <void> registerUser(String name, String email, String password) async {
-    final request = UsersPostRequest((b) => b
+    final request = AuthRegisterPostRequest((b) => b
       ..name = name
       ..email = email
       ..password = password
     );
 
-    final response = await ApiManager.authApi.authRegisterPost(usersPostRequest: request);
+    final response = await ApiManager.authApi.authRegisterPost(authRegisterPostRequest: request);
     print("Register Response: $response");
 
   }
@@ -33,7 +33,7 @@ class auth_Repository {
       final token = response.data?.accessToken;
 
       // ✅ Check your generated model for the exact name (usually .role or .user.role)
-      final role = response.data?.user?.role;
+      final role = response.data?.user.role;
 
       if (token == null || token.isEmpty) {
         throw Exception("accessToken missing in response");

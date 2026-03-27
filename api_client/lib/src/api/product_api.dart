@@ -10,10 +10,13 @@ import 'package:dio/dio.dart';
 
 import 'package:built_collection/built_collection.dart';
 import 'package:ecommerce_api_client/src/api_util.dart';
+import 'package:ecommerce_api_client/src/model/auth_register_post400_response.dart';
+import 'package:ecommerce_api_client/src/model/auth_register_post409_response.dart';
 import 'package:ecommerce_api_client/src/model/products_get200_response_inner.dart';
 import 'package:ecommerce_api_client/src/model/products_id_delete200_response.dart';
 import 'package:ecommerce_api_client/src/model/products_id_put_request.dart';
 import 'package:ecommerce_api_client/src/model/products_post_request.dart';
+import 'package:ecommerce_api_client/src/model/users_id_put400_response.dart';
 
 class ProductApi {
   final Dio _dio;
@@ -23,7 +26,7 @@ class ProductApi {
   const ProductApi(this._dio, this._serializers);
 
   /// Get all products
-  /// Retrieves a list of all products
+  /// Returns all products visible to an authenticated user.
   ///
   /// Parameters:
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
@@ -104,7 +107,7 @@ class ProductApi {
   }
 
   /// Delete a product by ID
-  /// Deletes a product by its ID
+  /// Deletes a product by UUID. This endpoint requires an authenticated admin token.
   ///
   /// Parameters:
   /// * [id]
@@ -189,7 +192,7 @@ class ProductApi {
   }
 
   /// Get a product by ID
-  /// Retrieves a product by its ID
+  /// Returns a single product by UUID for an authenticated user.
   ///
   /// Parameters:
   /// * [id]
@@ -274,7 +277,7 @@ class ProductApi {
   }
 
   /// Update a product by ID
-  /// Updates a product by its ID
+  /// Updates a product by UUID. This endpoint requires an authenticated admin token.
   ///
   /// Parameters:
   /// * [id]
@@ -382,7 +385,7 @@ class ProductApi {
   }
 
   /// Create a new product
-  /// Creates a new product with the provided details
+  /// Creates a product. This endpoint requires an authenticated user token. Product creation is not currently admin-only in the implementation.
   ///
   /// Parameters:
   /// * [productsPostRequest]

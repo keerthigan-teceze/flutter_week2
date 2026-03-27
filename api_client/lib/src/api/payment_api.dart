@@ -8,7 +8,9 @@ import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
+import 'package:ecommerce_api_client/src/model/users_id_put400_response.dart';
 import 'package:ecommerce_api_client/src/model/webhooks_payments_mock_post200_response.dart';
+import 'package:ecommerce_api_client/src/model/webhooks_payments_mock_post500_response.dart';
 import 'package:ecommerce_api_client/src/model/webhooks_payments_mock_post_request.dart';
 import 'package:ecommerce_api_client/src/model/webhooks_payments_post200_response.dart';
 import 'package:ecommerce_api_client/src/model/webhooks_payments_post_request.dart';
@@ -20,8 +22,8 @@ class PaymentApi {
 
   const PaymentApi(this._dio, this._serializers);
 
-  /// Mock payment-provider webhook (local testing)
-  /// Creates a pending payment and simulates a provider webhook event by calling the real /webhooks/payments handler internally.
+  /// Mock payment-provider webhook for local testing
+  /// Creates a pending payment row for the supplied order ID, generates a stripe-like signature, and internally calls the real payment webhook handler. Useful for demo and local lifecycle verification.
   ///
   /// Parameters:
   /// * [webhooksPaymentsMockPostRequest]
@@ -121,9 +123,10 @@ class PaymentApi {
   }
 
   /// Payment webhook endpoint
-  /// Verifies a stripe-like signature from the &#x60;stripe-signature&#x60; header using WEBHOOK_SECRET, then updates &#x60;orders.status&#x60; and &#x60;payments.status&#x60; based on &#x60;payment_intent.succeeded&#x60; / &#x60;payment_intent.failed&#x60;.
+  /// Verifies a stripe-like &#x60;stripe-signature&#x60; header using &#x60;WEBHOOK_SECRET&#x60;, resolves a provider reference from the event payload, and updates both &#x60;payments.status&#x60; and &#x60;orders.status&#x60;. Success transitions the order to &#x60;paid&#x60;, failure transitions it to &#x60;failed&#x60;. Repeated delivery of the same event is handled idempotently.
   ///
   /// Parameters:
+  /// * [stripeSignature] - Stripe-like signature header verified with WEBHOOK_SECRET.
   /// * [webhooksPaymentsPostRequest]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
@@ -135,6 +138,7 @@ class PaymentApi {
   /// Returns a [Future] containing a [Response] with a [WebhooksPaymentsPost200Response] as data
   /// Throws [DioException] if API call or serialization fails
   Future<Response<WebhooksPaymentsPost200Response>> webhooksPaymentsPost({
+    required String stripeSignature,
     WebhooksPaymentsPostRequest? webhooksPaymentsPostRequest,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -147,6 +151,7 @@ class PaymentApi {
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
+        r'stripe-signature': stripeSignature,
         ...?headers,
       },
       extra: <String, dynamic>{

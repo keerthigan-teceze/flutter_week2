@@ -3,73 +3,73 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:ecommerce_api_client/src/model/products_get200_response_inner.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
-part 'products_id_delete200_response.g.dart';
+part 'webhooks_payments_mock_post500_response.g.dart';
 
-/// ProductsIdDelete200Response
+/// WebhooksPaymentsMockPost500Response
 ///
 /// Properties:
-/// * [message]
-/// * [product]
+/// * [success]
+/// * [error]
 @BuiltValue()
-abstract class ProductsIdDelete200Response
+abstract class WebhooksPaymentsMockPost500Response
     implements
-        Built<ProductsIdDelete200Response, ProductsIdDelete200ResponseBuilder> {
-  @BuiltValueField(wireName: r'message')
-  String get message;
+        Built<WebhooksPaymentsMockPost500Response,
+            WebhooksPaymentsMockPost500ResponseBuilder> {
+  @BuiltValueField(wireName: r'success')
+  bool get success;
 
-  @BuiltValueField(wireName: r'product')
-  ProductsGet200ResponseInner get product;
+  @BuiltValueField(wireName: r'error')
+  String get error;
 
-  ProductsIdDelete200Response._();
+  WebhooksPaymentsMockPost500Response._();
 
-  factory ProductsIdDelete200Response(
-          [void updates(ProductsIdDelete200ResponseBuilder b)]) =
-      _$ProductsIdDelete200Response;
+  factory WebhooksPaymentsMockPost500Response(
+          [void updates(WebhooksPaymentsMockPost500ResponseBuilder b)]) =
+      _$WebhooksPaymentsMockPost500Response;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(ProductsIdDelete200ResponseBuilder b) => b;
+  static void _defaults(WebhooksPaymentsMockPost500ResponseBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ProductsIdDelete200Response> get serializer =>
-      _$ProductsIdDelete200ResponseSerializer();
+  static Serializer<WebhooksPaymentsMockPost500Response> get serializer =>
+      _$WebhooksPaymentsMockPost500ResponseSerializer();
 }
 
-class _$ProductsIdDelete200ResponseSerializer
-    implements PrimitiveSerializer<ProductsIdDelete200Response> {
+class _$WebhooksPaymentsMockPost500ResponseSerializer
+    implements PrimitiveSerializer<WebhooksPaymentsMockPost500Response> {
   @override
   final Iterable<Type> types = const [
-    ProductsIdDelete200Response,
-    _$ProductsIdDelete200Response
+    WebhooksPaymentsMockPost500Response,
+    _$WebhooksPaymentsMockPost500Response
   ];
 
   @override
-  final String wireName = r'ProductsIdDelete200Response';
+  final String wireName = r'WebhooksPaymentsMockPost500Response';
 
   Iterable<Object?> _serializeProperties(
     Serializers serializers,
-    ProductsIdDelete200Response object, {
+    WebhooksPaymentsMockPost500Response object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'message';
+    yield r'success';
     yield serializers.serialize(
-      object.message,
-      specifiedType: const FullType(String),
+      object.success,
+      specifiedType: const FullType(bool),
     );
-    yield r'product';
+    yield r'error';
     yield serializers.serialize(
-      object.product,
-      specifiedType: const FullType(ProductsGet200ResponseInner),
+      object.error,
+      specifiedType: const FullType(String),
     );
   }
 
   @override
   Object serialize(
     Serializers serializers,
-    ProductsIdDelete200Response object, {
+    WebhooksPaymentsMockPost500Response object, {
     FullType specifiedType = FullType.unspecified,
   }) {
     return _serializeProperties(serializers, object,
@@ -82,26 +82,26 @@ class _$ProductsIdDelete200ResponseSerializer
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
     required List<Object?> serializedList,
-    required ProductsIdDelete200ResponseBuilder result,
+    required WebhooksPaymentsMockPost500ResponseBuilder result,
     required List<Object?> unhandled,
   }) {
     for (var i = 0; i < serializedList.length; i += 2) {
       final key = serializedList[i] as String;
       final value = serializedList[i + 1];
       switch (key) {
-        case r'message':
+        case r'success':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(bool),
+          ) as bool;
+          result.success = valueDes;
+          break;
+        case r'error':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(String),
           ) as String;
-          result.message = valueDes;
-          break;
-        case r'product':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(ProductsGet200ResponseInner),
-          ) as ProductsGet200ResponseInner;
-          result.product.replace(valueDes);
+          result.error = valueDes;
           break;
         default:
           unhandled.add(key);
@@ -112,12 +112,12 @@ class _$ProductsIdDelete200ResponseSerializer
   }
 
   @override
-  ProductsIdDelete200Response deserialize(
+  WebhooksPaymentsMockPost500Response deserialize(
     Serializers serializers,
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    final result = ProductsIdDelete200ResponseBuilder();
+    final result = WebhooksPaymentsMockPost500ResponseBuilder();
     final serializedList = (serialized as Iterable<Object?>).toList();
     final unhandled = <Object?>[];
     _deserializeProperties(

@@ -19,7 +19,7 @@ Method | HTTP request | Description
 
 Login
 
-Authenticates a user and returns access + refresh tokens.
+Authenticates a user and returns access and refresh tokens.
 
 ### Example
 ```dart
@@ -48,7 +48,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[bearerAuth](../README.md#bearerAuth)
+No authorization required
 
 ### HTTP request headers
 
@@ -62,7 +62,7 @@ Name | Type | Description  | Notes
 
 Refresh tokens
 
-Uses a refresh token to issue a new access + refresh token pair.
+Uses a refresh token to issue a new access and refresh token pair.
 
 ### Example
 ```dart
@@ -91,7 +91,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[bearerAuth](../README.md#bearerAuth)
+No authorization required
 
 ### HTTP request headers
 
@@ -101,21 +101,21 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **authRegisterPost**
-> AuthRegisterPost200Response authRegisterPost(usersPostRequest)
+> AuthRegisterPost200Response authRegisterPost(authRegisterPostRequest)
 
 Register a new user
 
-Creates a new user account and returns access + refresh tokens.
+Creates a new user account and returns access and refresh tokens. The request may include a role field, which currently matches the implementation contract.
 
 ### Example
 ```dart
 import 'package:ecommerce_api_client/api.dart';
 
 final api = EcommerceApiClient().getAuthApi();
-final UsersPostRequest usersPostRequest = ; // UsersPostRequest | 
+final AuthRegisterPostRequest authRegisterPostRequest = ; // AuthRegisterPostRequest | 
 
 try {
-    final response = api.authRegisterPost(usersPostRequest);
+    final response = api.authRegisterPost(authRegisterPostRequest);
     print(response);
 } catch on DioException (e) {
     print('Exception when calling AuthApi->authRegisterPost: $e\n');
@@ -126,7 +126,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **usersPostRequest** | [**UsersPostRequest**](UsersPostRequest.md)|  | [optional] 
+ **authRegisterPostRequest** | [**AuthRegisterPostRequest**](AuthRegisterPostRequest.md)|  | [optional] 
 
 ### Return type
 
@@ -134,7 +134,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[bearerAuth](../README.md#bearerAuth)
+No authorization required
 
 ### HTTP request headers
 

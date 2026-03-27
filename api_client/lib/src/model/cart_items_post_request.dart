@@ -3,63 +3,70 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:built_collection/built_collection.dart';
-import 'package:ecommerce_api_client/src/model/cart_items_post_request.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
-part 'orders_post_request.g.dart';
+part 'cart_items_post_request.g.dart';
 
-/// OrdersPostRequest
+/// CartItemsPostRequest
 ///
 /// Properties:
-/// * [items]
+/// * [productId]
+/// * [quantity]
 @BuiltValue()
-abstract class OrdersPostRequest
-    implements Built<OrdersPostRequest, OrdersPostRequestBuilder> {
-  @BuiltValueField(wireName: r'items')
-  BuiltList<CartItemsPostRequest>? get items;
+abstract class CartItemsPostRequest
+    implements Built<CartItemsPostRequest, CartItemsPostRequestBuilder> {
+  @BuiltValueField(wireName: r'productId')
+  String get productId;
 
-  OrdersPostRequest._();
+  @BuiltValueField(wireName: r'quantity')
+  int get quantity;
 
-  factory OrdersPostRequest([void updates(OrdersPostRequestBuilder b)]) =
-      _$OrdersPostRequest;
+  CartItemsPostRequest._();
+
+  factory CartItemsPostRequest([void updates(CartItemsPostRequestBuilder b)]) =
+      _$CartItemsPostRequest;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(OrdersPostRequestBuilder b) => b;
+  static void _defaults(CartItemsPostRequestBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<OrdersPostRequest> get serializer =>
-      _$OrdersPostRequestSerializer();
+  static Serializer<CartItemsPostRequest> get serializer =>
+      _$CartItemsPostRequestSerializer();
 }
 
-class _$OrdersPostRequestSerializer
-    implements PrimitiveSerializer<OrdersPostRequest> {
+class _$CartItemsPostRequestSerializer
+    implements PrimitiveSerializer<CartItemsPostRequest> {
   @override
-  final Iterable<Type> types = const [OrdersPostRequest, _$OrdersPostRequest];
+  final Iterable<Type> types = const [
+    CartItemsPostRequest,
+    _$CartItemsPostRequest
+  ];
 
   @override
-  final String wireName = r'OrdersPostRequest';
+  final String wireName = r'CartItemsPostRequest';
 
   Iterable<Object?> _serializeProperties(
     Serializers serializers,
-    OrdersPostRequest object, {
+    CartItemsPostRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    if (object.items != null) {
-      yield r'items';
-      yield serializers.serialize(
-        object.items,
-        specifiedType:
-            const FullType(BuiltList, [FullType(CartItemsPostRequest)]),
-      );
-    }
+    yield r'productId';
+    yield serializers.serialize(
+      object.productId,
+      specifiedType: const FullType(String),
+    );
+    yield r'quantity';
+    yield serializers.serialize(
+      object.quantity,
+      specifiedType: const FullType(int),
+    );
   }
 
   @override
   Object serialize(
     Serializers serializers,
-    OrdersPostRequest object, {
+    CartItemsPostRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) {
     return _serializeProperties(serializers, object,
@@ -72,20 +79,26 @@ class _$OrdersPostRequestSerializer
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
     required List<Object?> serializedList,
-    required OrdersPostRequestBuilder result,
+    required CartItemsPostRequestBuilder result,
     required List<Object?> unhandled,
   }) {
     for (var i = 0; i < serializedList.length; i += 2) {
       final key = serializedList[i] as String;
       final value = serializedList[i + 1];
       switch (key) {
-        case r'items':
+        case r'productId':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType:
-                const FullType(BuiltList, [FullType(CartItemsPostRequest)]),
-          ) as BuiltList<CartItemsPostRequest>;
-          result.items.replace(valueDes);
+            specifiedType: const FullType(String),
+          ) as String;
+          result.productId = valueDes;
+          break;
+        case r'quantity':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(int),
+          ) as int;
+          result.quantity = valueDes;
           break;
         default:
           unhandled.add(key);
@@ -96,12 +109,12 @@ class _$OrdersPostRequestSerializer
   }
 
   @override
-  OrdersPostRequest deserialize(
+  CartItemsPostRequest deserialize(
     Serializers serializers,
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    final result = OrdersPostRequestBuilder();
+    final result = CartItemsPostRequestBuilder();
     final serializedList = (serialized as Iterable<Object?>).toList();
     final unhandled = <Object?>[];
     _deserializeProperties(

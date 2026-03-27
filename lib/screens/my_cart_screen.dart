@@ -11,6 +11,45 @@ class MyCartScreen extends StatefulWidget {
 class _MyCartScreenState extends State<MyCartScreen> {
   final CartRepository _cartRepo = CartRepository();
 
+  List<Map<String, dynamic>> cartItems = [];
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchCartItems();
+  }
+
+  Future<void> fetchCartItems() async {
+    try {
+      final data = await _cartRepo.getCart();
+      print("✅ CART DATA: $data");
+      setState(() {
+        cartItems = data;
+        isLoading = false;
+      });
+    } catch (e) {
+      print("Error loading cart items: $e");
+      setState(() => isLoading = false);
+    }
+  }
+
+  Future<void> removeFromCart(String productId) async {
+    try {
+      await _cartRepo.removeFromCart(productId);
+
+      setState(() {
+        cartItems.removeWhere((item) => item["id"] == productId);
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Removed from cart")),
+      );
+    } catch (e) {
+      print("Error removing from cart: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,10 +62,16 @@ class _MyCartScreenState extends State<MyCartScreen> {
         centerTitle: true,
       ),
 
-      body: ListView.builder(
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : cartItems.isEmpty
+          ? const Center(child: Text("Your cart is empty"))
+          : ListView.builder(
         padding: const EdgeInsets.all(16),
-        itemCount: 5, // placeholder items
+        itemCount: cartItems.length,
         itemBuilder: (context, index) {
+          final item = cartItems[index];
+
           return Container(
             margin: const EdgeInsets.only(bottom: 15),
             padding: const EdgeInsets.all(16),
@@ -41,37 +86,39 @@ class _MyCartScreenState extends State<MyCartScreen> {
                 ),
               ],
             ),
+
             child: Row(
               children: [
-                const Icon(Icons.shopping_bag, size: 40, color: Colors.orange),
+                const Icon(Icons.shopping_bag,
+                    size: 40, color: Colors.orange),
                 const SizedBox(width: 15),
 
-                // Product Info
+                // ✅ Real Cart Item Info
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Product ${index + 1}",
+                        item["name"],
                         style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 5),
-                      const Text("Quantity: 1"),
-                      const Text("Price: \$20.00"),
+                      Text("Quantity: ${item["quantity"]}"),
+                      Text("Price: \$${item["price"]}"),
                     ],
                   ),
                 ),
 
-                // Delete Button
+                // ✅ REMOVE FROM CART ICON
                 IconButton(
                   icon: const Icon(Icons.delete, color: Colors.red),
                   onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("Removed item ${index + 1}")),
-                    );
+                    removeFromCart(item["id"]);
+                    print("🗑️ Removed from cart → ${item["id"]}");
                   },
-                )
+                ),
               ],
             ),
           );
