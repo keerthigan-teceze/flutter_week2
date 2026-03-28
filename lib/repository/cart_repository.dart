@@ -47,4 +47,14 @@ class CartRepository {
   }
 
 
+  Future <void> clearCart() async {
+    try {
+      await ApiManager.cartApi.cartDelete();
+      print("🛒 Cart cleared");
+    } catch (e) {
+      throw Exception("❌ Failed to clear cart: $e");
+    }
+  }
+
+
 }

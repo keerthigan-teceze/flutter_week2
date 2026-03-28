@@ -50,6 +50,21 @@ class _MyCartScreenState extends State<MyCartScreen> {
     }
   }
 
+  Future <void> clearCart() async {
+    try {
+      await _cartRepo.clearCart();
+      setState(() {
+        cartItems.clear();
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Cart cleared")),
+      );
+    } catch (e) {
+      print("Error clearing cart: $e");
+      }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,6 +75,22 @@ class _MyCartScreenState extends State<MyCartScreen> {
         ),
         backgroundColor: Colors.orange,
         centerTitle: true,
+
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.delete_forever, color: Colors.white, size: 30),
+            onPressed: () async {
+              if (cartItems.isNotEmpty) {
+                await clearCart();
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Cart is already empty")),
+                );
+              }
+            },
+            tooltip: "Clear Cart",
+          )
+        ],
       ),
 
       body: isLoading
