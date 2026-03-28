@@ -57,4 +57,19 @@ class CartRepository {
   }
 
 
+  Future <void> updateQuantity(String productId, int newQuantity) async {
+    try {
+      final body = CartItemsProductIdPutRequest((b) =>
+      b
+        ..quantity = newQuantity);
+
+      await ApiManager.cartApi.cartItemsProductIdPut(productId: productId, cartItemsProductIdPutRequest: body);
+      print("🛒 Updated cart item quantity → $productId");
+    } catch (e) {
+      throw Exception("❌ Failed to update cart item quantity: $e");
+    }
+  }
+
+
+
 }
