@@ -51,5 +51,48 @@ class OrderRepository {
       print("❌ Error fetching orders: $e");
       throw Exception("Error fetching orders: $e");
     }
+
+
+  }
+
+  // checkout entire cart
+  Future<void> checkoutCart() async {    try {
+    // 1. Generate unique idempotency key
+    final idempotencyKey = const Uuid().v4();
+
+    // 2. Call the API WITHOUT the ordersPostRequest parameter.
+    // Per API specs: If items is omitted, it checks out the user's cart directly.
+    final response = await ApiManager.ordersApi.ordersPost(
+      idempotencyKey: idempotencyKey,
+      // ordersPostRequest is omitted/null here
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print("✅ Cart checked out successfully");
+    } else {
+      throw Exception("Failed to checkout: ${response.statusCode}");
+    }
+  } catch (e) {
+    print("❌ Error during cart checkout: $e");
+    throw Exception("❌ Failed to checkout cart: $e");
+  }
+  }
+
+  Future<void> mockPayment(String orderId) async {
+    try {
+      final body = WebhooksPaymentsMockPostRequest((b) => b
+        ..orderId = orderId
+        ..result = WebhooksPaymentsMockPostRequestResultEnum.success // or "failed"
+      );
+
+      await ApiManager.paymentsApi.webhooksPaymentsMockPost(
+        webhooksPaymentsMockPostRequest: body,
+      );
+
+      print("✅ Mock payment success for $orderId");
+
+    } catch (e) {
+      print("❌ Mock payment failed: $e");
+    }
   }
 }

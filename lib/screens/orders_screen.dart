@@ -47,6 +47,37 @@ class _OrdersScreenState extends State<OrdersScreen> {
     }
   }
 
+  // NEW: Method to handle the payment button click
+  Future<void> _handlePayNow(String orderId) async {
+    try {
+      // Show a loading dialog
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(child: CircularProgressIndicator()),
+      );
+
+      // Call the API we fixed in OrderRepository
+      await _orderRepo.mockPayment(orderId);
+
+      if (mounted) {
+        Navigator.pop(context); // Close loading dialog
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Payment Successful!")),
+        );
+        // Refresh the list to show the new "PAID" status
+        fetchOrders();
+      }
+    } catch (e) {
+      if (mounted) {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Payment failed: $e")),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,15 +100,18 @@ class _OrdersScreenState extends State<OrdersScreen> {
             final order = allOrders[index];
 
             // 1. Handle Status
-            final statusString = order.status.name;
-            Color statusColor = statusString == 'paid' ? Colors.green : Colors.orange;
+            final statusString = order.status.name.toLowerCase();
+            bool isPaid = statusString == 'paid';
+            Color statusColor = isPaid ? Colors.green : Colors.orange;
 
             // 2. Handle Date
             String dateDisplay = "N/A";
             if (order.createdAt != null) {
               try {
                 dateDisplay = DateTime.parse(order.createdAt!)
-                    .toLocal().toString().substring(0, 10);
+                    .toLocal()
+                    .toString()
+                    .substring(0, 10);
               } catch (_) {}
             }
 
@@ -87,7 +121,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
-                boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2))],
+                boxShadow: const [
+                  BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 4,
+                      offset: Offset(0, 2))
+                ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,30 +134,32 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("ID: ${order.orderId?.substring(0, 8) ?? 'N/A'}",
-                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                      Text(
+                          "ID: ${order.orderId?.substring(0, 8) ?? 'N/A'}",
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold)),
                       Text(statusString.toUpperCase(),
-                          style: TextStyle(color: statusColor, fontWeight: FontWeight.bold, fontSize: 12)),
+                          style: TextStyle(
+                              color: statusColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12)),
                     ],
                   ),
                   const Divider(),
 
-                  // ✅ DISPLAY NAMES AND DESCRIPTIONS
                   if (order.items != null)
                     ...order.items!.map((item) => Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 4.0),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment:
+                        CrossAxisAlignment.start,
                         children: [
                           Text(
                             "${item.name} (x${item.quantity})",
-                            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
-                          ),
-                          Text(
-                            item.description ?? "No description",
-                            style: const TextStyle(color: Colors.grey, fontSize: 13),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15),
                           ),
                         ],
                       ),
@@ -128,13 +169,36 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Date: $dateDisplay", style: const TextStyle(color: Colors.black54, fontSize: 12)),
+                      Text("Date: $dateDisplay",
+                          style: const TextStyle(
+                              color: Colors.black54, fontSize: 12)),
                       Text(
                         "Total: \$${(order.totalAmount ?? 0).toStringAsFixed(2)}",
-                        style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.orange, fontSize: 16),
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.orange,
+                            fontSize: 16),
                       ),
                     ],
                   ),
+
+                  // ✅ ADDED PAY NOW BUTTON
+                  if (!isPaid && order.orderId != null) ...[
+                    const SizedBox(height: 10),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () => _handlePayNow(order.orderId!),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.orange,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)),
+                        ),
+                        child: const Text("PAY NOW (MOCK)"),
+                      ),
+                    ),
+                  ],
                 ],
               ),
             );

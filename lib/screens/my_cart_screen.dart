@@ -13,9 +13,9 @@ class _MyCartScreenState extends State<MyCartScreen> {
   final CartRepository _cartRepo = CartRepository();
   final OrderRepository _orderRepo = OrderRepository();
 
-
   List<Map<String, dynamic>> cartItems = [];
   bool isLoading = true;
+  bool isCheckingOut = false; // ✅ Track checkout loading state
 
   @override
   void initState() {
@@ -23,16 +23,46 @@ class _MyCartScreenState extends State<MyCartScreen> {
     fetchCartItems();
   }
 
-  Future <void> createOrder(String productId, int quantity) async {
+  /// ✅ CHECKOUT ENTIRE CART
+  Future<void> checkoutCart() async {
+    setState(() => isCheckingOut = true);
     try {
-      await _orderRepo.createOrder(productId,quantity);
-      print("✅ Order created");
+      // Calls the API without a body to order everything in the cart
+      await _orderRepo.checkoutCart();
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("✅ Order placed successfully!"),
+            backgroundColor: Colors.green,
+          ),
+        );
+
+        // After successful checkout, the cart is empty on the server.
+        // We clear it locally and stop loading.
+        setState(() {
+          cartItems.clear();
+        });
+
+        // Optional: Navigate to an orders history screen or home
+        // Navigator.of(context).pop();
+      }
     } catch (e) {
-      throw Exception("❌ Failed to create order: $e");
+      print("Error checking out cart: $e");
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("❌ Error checking out cart"),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => isCheckingOut = false);
+      }
     }
-
   }
-
 
   /// ✅ FETCH CART ITEMS
   Future<void> fetchCartItems() async {
@@ -52,11 +82,9 @@ class _MyCartScreenState extends State<MyCartScreen> {
   Future<void> removeFromCart(String id) async {
     try {
       await _cartRepo.removeFromCart(id);
-
       setState(() {
         cartItems.removeWhere((item) => item["id"] == id);
       });
-
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("✅ Item removed")),
       );
@@ -81,7 +109,6 @@ class _MyCartScreenState extends State<MyCartScreen> {
   /// ✅ UPDATE QUANTITY DIALOG
   void _showEditQuantityDialog(String id, int currentQty) {
     final controller = TextEditingController(text: currentQty.toString());
-
     showDialog(
       context: context,
       builder: (context) {
@@ -107,7 +134,6 @@ class _MyCartScreenState extends State<MyCartScreen> {
                   );
                   return;
                 }
-
                 Navigator.pop(context);
                 await updateQuantity(id, qty);
               },
@@ -122,11 +148,9 @@ class _MyCartScreenState extends State<MyCartScreen> {
   Future<void> updateQuantity(String id, int qty) async {
     try {
       await _cartRepo.updateQuantity(id, qty);
-
       setState(() {
         cartItems.firstWhere((item) => item["id"] == id)["quantity"] = qty;
       });
-
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("✅ Quantity updated")),
       );
@@ -152,7 +176,6 @@ class _MyCartScreenState extends State<MyCartScreen> {
           )
         ],
       ),
-
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : cartItems.isEmpty
@@ -162,7 +185,6 @@ class _MyCartScreenState extends State<MyCartScreen> {
         itemCount: cartItems.length,
         itemBuilder: (context, index) {
           final item = cartItems[index];
-
           return Container(
             margin: const EdgeInsets.only(bottom: 15),
             padding: const EdgeInsets.all(16),
@@ -176,49 +198,32 @@ class _MyCartScreenState extends State<MyCartScreen> {
                     offset: Offset(0, 3))
               ],
             ),
-
             child: Row(
               children: [
                 const Icon(Icons.shopping_bag,
                     size: 40, color: Colors.orange),
                 const SizedBox(width: 15),
-
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(item["name"],
                           style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold)),
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold)),
                       const SizedBox(height: 5),
                       Text("Quantity: ${item["quantity"]}"),
                       Text("Price: \$${item["price"]}"),
                     ],
                   ),
                 ),
-
-                /// ✅ ORDER ICON — NEW
-                IconButton(
-                  icon: const Icon(Icons.shopping_cart_checkout, color: Colors.green),
-                  onPressed: () async {
-                    await createOrder(item["id"], item["quantity"]);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("✅ Order created")),
-                    );
-
-
-                  },
-                ),
-
-                /// ✅ EDIT ICON
                 IconButton(
                   icon: const Icon(Icons.edit, color: Colors.blue),
                   onPressed: () {
-                    _showEditQuantityDialog(item["id"], item["quantity"]);
+                    _showEditQuantityDialog(
+                        item["id"], item["quantity"]);
                   },
                 ),
-
-                /// ✅ REMOVE ICON
                 IconButton(
                   icon: const Icon(Icons.delete, color: Colors.red),
                   onPressed: () => removeFromCart(item["id"]),
@@ -227,6 +232,33 @@ class _MyCartScreenState extends State<MyCartScreen> {
             ),
           );
         },
+      ),
+
+      // ✅ Integrated Checkout Button at the Bottom
+      bottomNavigationBar: cartItems.isEmpty
+          ? null // Hide button if cart is empty
+          : Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ElevatedButton(
+          onPressed: isCheckingOut ? null : checkoutCart,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.orange,
+            minimumSize: const Size.fromHeight(55), // Full width button
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+          child: isCheckingOut
+              ? const CircularProgressIndicator(color: Colors.white)
+              : const Text(
+            "CHECKOUT ALL ITEMS",
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+        ),
       ),
     );
   }
