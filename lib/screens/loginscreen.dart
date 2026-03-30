@@ -4,6 +4,7 @@ import 'package:ecommerce/screens/userscreen.dart';
 import 'package:ecommerce/services/api_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce/screens/adminhomescreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class LoginPage extends StatefulWidget {
@@ -40,6 +41,11 @@ class _LoginPageState extends State<LoginPage> {
       final role  = loginData["role"];    // ✅ "admin" or "user"
 
       print("✅ LOGIN SUCCESS: $token | ROLE: $role");
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString("accessToken", token);
+      await prefs.setString("refreshToken", loginData["refreshToken"]);
+      await prefs.setString("role", role);
 
       // ✅ Store token globally for all API calls
       ApiManager.setToken(token);

@@ -3,6 +3,8 @@ import 'package:ecommerce_api_client/ecommerce_api_client.dart';
 
 class auth_Repository {
 
+
+
   Future <void> registerUser(String name, String email, String password) async {
     final request = AuthRegisterPostRequest((b) => b
       ..name = name
@@ -31,6 +33,7 @@ class auth_Repository {
 
       // Extract token and role from the response data
       final token = response.data?.accessToken;
+      final refreshToken = response.data?.refreshToken;
 
       // ✅ Check your generated model for the exact name (usually .role or .user.role)
       final role = response.data?.user.role;
@@ -43,6 +46,7 @@ class auth_Repository {
       return {
         "token": token,
         "role": role ?? "user", // Default to "user" if role is null
+        "refreshToken": refreshToken,
       };
 
     } catch (e) {
