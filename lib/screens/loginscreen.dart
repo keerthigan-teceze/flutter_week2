@@ -2,6 +2,7 @@ import 'package:ecommerce/main.dart';
 import 'package:ecommerce/repository/auth_repository.dart';
 import 'package:ecommerce/screens/userscreen.dart';
 import 'package:ecommerce/services/api_manager.dart';
+import 'package:ecommerce/widgets/admin_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce/screens/adminhomescreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -54,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
       if (role == "admin") {
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (_) => const AdminHomePageScreen()),
+          MaterialPageRoute(builder: (_) => const AdminMainNavigation()),
               (route) => false,
         );
       } else {

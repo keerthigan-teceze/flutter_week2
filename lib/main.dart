@@ -1,5 +1,6 @@
 import 'package:ecommerce/screens/adminhomescreen.dart';
 import 'package:ecommerce/screens/userscreen.dart';
+import 'package:ecommerce/widgets/admin_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,7 +23,7 @@ void main() async {
 
     // ✅ Decide home page based on role
     if (savedRole == "admin") {
-      startPage = const AdminHomePageScreen();
+      startPage = const AdminMainNavigation();
     } else {
       startPage = const UserHomePageScreen();
     }
