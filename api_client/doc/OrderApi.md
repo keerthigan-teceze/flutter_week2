@@ -9,8 +9,48 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**ordersGet**](OrderApi.md#ordersget) | **GET** /orders | Get the authenticated user&#39;s orders
 [**ordersPost**](OrderApi.md#orderspost) | **POST** /orders | Create a new order
 
+
+# **ordersGet**
+> OrdersGet200Response ordersGet()
+
+Get the authenticated user's orders
+
+Returns the authenticated user's order history split into ongoing orders (`pending`) and past orders (`paid` or `failed`). Each order includes its purchased products, per-item purchase price, and current status.
+
+### Example
+```dart
+import 'package:ecommerce_api_client/api.dart';
+
+final api = EcommerceApiClient().getOrderApi();
+
+try {
+    final response = api.ordersGet();
+    print(response);
+} catch on DioException (e) {
+    print('Exception when calling OrderApi->ordersGet: $e\n');
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**OrdersGet200Response**](OrdersGet200Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **ordersPost**
 > OrdersPost200Response ordersPost(idempotencyKey, ordersPostRequest)

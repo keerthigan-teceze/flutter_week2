@@ -26,6 +26,9 @@ import 'package:ecommerce_api_client/src/model/cart_get200_response.dart';
 import 'package:ecommerce_api_client/src/model/cart_get200_response_items_inner.dart';
 import 'package:ecommerce_api_client/src/model/cart_items_post_request.dart';
 import 'package:ecommerce_api_client/src/model/cart_items_product_id_put_request.dart';
+import 'package:ecommerce_api_client/src/model/orders_get200_response.dart';
+import 'package:ecommerce_api_client/src/model/orders_get200_response_current_orders_inner.dart';
+import 'package:ecommerce_api_client/src/model/orders_get200_response_current_orders_inner_items_inner.dart';
 import 'package:ecommerce_api_client/src/model/orders_post200_response.dart';
 import 'package:ecommerce_api_client/src/model/orders_post200_response_items_inner.dart';
 import 'package:ecommerce_api_client/src/model/orders_post_request.dart';
@@ -61,6 +64,9 @@ part 'serializers.g.dart';
   CartGet200ResponseItemsInner,
   CartItemsPostRequest,
   CartItemsProductIdPutRequest,
+  OrdersGet200Response,
+  OrdersGet200ResponseCurrentOrdersInner,
+  OrdersGet200ResponseCurrentOrdersInnerItemsInner,
   OrdersPost200Response,
   OrdersPost200ResponseItemsInner,
   OrdersPostRequest,

@@ -21,6 +21,10 @@ Serializers _$serializers = (Serializers().toBuilder()
       ..add(CartGet200ResponseItemsInner.serializer)
       ..add(CartItemsPostRequest.serializer)
       ..add(CartItemsProductIdPutRequest.serializer)
+      ..add(OrdersGet200Response.serializer)
+      ..add(OrdersGet200ResponseCurrentOrdersInner.serializer)
+      ..add(OrdersGet200ResponseCurrentOrdersInnerItemsInner.serializer)
+      ..add(OrdersGet200ResponseCurrentOrdersInnerStatusEnum.serializer)
       ..add(OrdersPost200Response.serializer)
       ..add(OrdersPost200ResponseItemsInner.serializer)
       ..add(OrdersPost200ResponseStatusEnum.serializer)
@@ -61,6 +65,19 @@ Serializers _$serializers = (Serializers().toBuilder()
           const FullType(
               BuiltList, const [const FullType(CartItemsPostRequest)]),
           () => ListBuilder<CartItemsPostRequest>())
+      ..addBuilderFactory(
+          const FullType(BuiltList,
+              const [const FullType(OrdersGet200ResponseCurrentOrdersInner)]),
+          () => ListBuilder<OrdersGet200ResponseCurrentOrdersInner>())
+      ..addBuilderFactory(
+          const FullType(BuiltList,
+              const [const FullType(OrdersGet200ResponseCurrentOrdersInner)]),
+          () => ListBuilder<OrdersGet200ResponseCurrentOrdersInner>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [
+            const FullType(OrdersGet200ResponseCurrentOrdersInnerItemsInner)
+          ]),
+          () => ListBuilder<OrdersGet200ResponseCurrentOrdersInnerItemsInner>())
       ..addBuilderFactory(
           const FullType(BuiltList,
               const [const FullType(OrdersPost200ResponseItemsInner)]),

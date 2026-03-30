@@ -1,3 +1,4 @@
+import 'package:ecommerce/repository/order_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce/repository/cart_repository.dart';
 
@@ -10,6 +11,8 @@ class MyCartScreen extends StatefulWidget {
 
 class _MyCartScreenState extends State<MyCartScreen> {
   final CartRepository _cartRepo = CartRepository();
+  final OrderRepository _orderRepo = OrderRepository();
+
 
   List<Map<String, dynamic>> cartItems = [];
   bool isLoading = true;
@@ -19,6 +22,17 @@ class _MyCartScreenState extends State<MyCartScreen> {
     super.initState();
     fetchCartItems();
   }
+
+  Future <void> createOrder(String productId, int quantity) async {
+    try {
+      await _orderRepo.createOrder(productId,quantity);
+      print("✅ Order created");
+    } catch (e) {
+      throw Exception("❌ Failed to create order: $e");
+    }
+
+  }
+
 
   /// ✅ FETCH CART ITEMS
   Future<void> fetchCartItems() async {
@@ -175,8 +189,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                     children: [
                       Text(item["name"],
                           style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold)),
+                              fontSize: 18, fontWeight: FontWeight.bold)),
                       const SizedBox(height: 5),
                       Text("Quantity: ${item["quantity"]}"),
                       Text("Price: \$${item["price"]}"),
@@ -184,14 +197,24 @@ class _MyCartScreenState extends State<MyCartScreen> {
                   ),
                 ),
 
+                /// ✅ ORDER ICON — NEW
+                IconButton(
+                  icon: const Icon(Icons.shopping_cart_checkout, color: Colors.green),
+                  onPressed: () async {
+                    await createOrder(item["id"], item["quantity"]);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("✅ Order created")),
+                    );
+
+
+                  },
+                ),
+
                 /// ✅ EDIT ICON
                 IconButton(
                   icon: const Icon(Icons.edit, color: Colors.blue),
                   onPressed: () {
-                    _showEditQuantityDialog(
-                      item["id"],
-                      item["quantity"],
-                    );
+                    _showEditQuantityDialog(item["id"], item["quantity"]);
                   },
                 ),
 

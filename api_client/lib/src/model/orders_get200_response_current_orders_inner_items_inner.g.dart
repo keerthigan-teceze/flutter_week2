@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'orders_post200_response_items_inner.dart';
+part of 'orders_get200_response_current_orders_inner_items_inner.dart';
 
 // **************************************************************************
 // BuiltValueGenerator
 // **************************************************************************
 
-class _$OrdersPost200ResponseItemsInner
-    extends OrdersPost200ResponseItemsInner {
+class _$OrdersGet200ResponseCurrentOrdersInnerItemsInner
+    extends OrdersGet200ResponseCurrentOrdersInnerItemsInner {
   @override
   final String productId;
   @override
@@ -15,34 +15,39 @@ class _$OrdersPost200ResponseItemsInner
   @override
   final num priceAtPurchase;
   @override
-  final String? name;
+  final String name;
   @override
-  final String? description;
+  final String description;
 
-  factory _$OrdersPost200ResponseItemsInner(
-          [void Function(OrdersPost200ResponseItemsInnerBuilder)? updates]) =>
-      (OrdersPost200ResponseItemsInnerBuilder()..update(updates))._build();
+  factory _$OrdersGet200ResponseCurrentOrdersInnerItemsInner(
+          [void Function(
+                  OrdersGet200ResponseCurrentOrdersInnerItemsInnerBuilder)?
+              updates]) =>
+      (OrdersGet200ResponseCurrentOrdersInnerItemsInnerBuilder()
+            ..update(updates))
+          ._build();
 
-  _$OrdersPost200ResponseItemsInner._(
+  _$OrdersGet200ResponseCurrentOrdersInnerItemsInner._(
       {required this.productId,
       required this.quantity,
       required this.priceAtPurchase,
-      this.name,
-      this.description})
+      required this.name,
+      required this.description})
       : super._();
   @override
-  OrdersPost200ResponseItemsInner rebuild(
-          void Function(OrdersPost200ResponseItemsInnerBuilder) updates) =>
+  OrdersGet200ResponseCurrentOrdersInnerItemsInner rebuild(
+          void Function(OrdersGet200ResponseCurrentOrdersInnerItemsInnerBuilder)
+              updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  OrdersPost200ResponseItemsInnerBuilder toBuilder() =>
-      OrdersPost200ResponseItemsInnerBuilder()..replace(this);
+  OrdersGet200ResponseCurrentOrdersInnerItemsInnerBuilder toBuilder() =>
+      OrdersGet200ResponseCurrentOrdersInnerItemsInnerBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is OrdersPost200ResponseItemsInner &&
+    return other is OrdersGet200ResponseCurrentOrdersInnerItemsInner &&
         productId == other.productId &&
         quantity == other.quantity &&
         priceAtPurchase == other.priceAtPurchase &&
@@ -64,7 +69,8 @@ class _$OrdersPost200ResponseItemsInner
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'OrdersPost200ResponseItemsInner')
+    return (newBuiltValueToStringHelper(
+            r'OrdersGet200ResponseCurrentOrdersInnerItemsInner')
           ..add('productId', productId)
           ..add('quantity', quantity)
           ..add('priceAtPurchase', priceAtPurchase)
@@ -74,11 +80,11 @@ class _$OrdersPost200ResponseItemsInner
   }
 }
 
-class OrdersPost200ResponseItemsInnerBuilder
+class OrdersGet200ResponseCurrentOrdersInnerItemsInnerBuilder
     implements
-        Builder<OrdersPost200ResponseItemsInner,
-            OrdersPost200ResponseItemsInnerBuilder> {
-  _$OrdersPost200ResponseItemsInner? _$v;
+        Builder<OrdersGet200ResponseCurrentOrdersInnerItemsInner,
+            OrdersGet200ResponseCurrentOrdersInnerItemsInnerBuilder> {
+  _$OrdersGet200ResponseCurrentOrdersInnerItemsInner? _$v;
 
   String? _productId;
   String? get productId => _$this._productId;
@@ -101,11 +107,11 @@ class OrdersPost200ResponseItemsInnerBuilder
   String? get description => _$this._description;
   set description(String? description) => _$this._description = description;
 
-  OrdersPost200ResponseItemsInnerBuilder() {
-    OrdersPost200ResponseItemsInner._defaults(this);
+  OrdersGet200ResponseCurrentOrdersInnerItemsInnerBuilder() {
+    OrdersGet200ResponseCurrentOrdersInnerItemsInner._defaults(this);
   }
 
-  OrdersPost200ResponseItemsInnerBuilder get _$this {
+  OrdersGet200ResponseCurrentOrdersInnerItemsInnerBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
       _productId = $v.productId;
@@ -119,31 +125,37 @@ class OrdersPost200ResponseItemsInnerBuilder
   }
 
   @override
-  void replace(OrdersPost200ResponseItemsInner other) {
-    _$v = other as _$OrdersPost200ResponseItemsInner;
+  void replace(OrdersGet200ResponseCurrentOrdersInnerItemsInner other) {
+    _$v = other as _$OrdersGet200ResponseCurrentOrdersInnerItemsInner;
   }
 
   @override
-  void update(void Function(OrdersPost200ResponseItemsInnerBuilder)? updates) {
+  void update(
+      void Function(OrdersGet200ResponseCurrentOrdersInnerItemsInnerBuilder)?
+          updates) {
     if (updates != null) updates(this);
   }
 
   @override
-  OrdersPost200ResponseItemsInner build() => _build();
+  OrdersGet200ResponseCurrentOrdersInnerItemsInner build() => _build();
 
-  _$OrdersPost200ResponseItemsInner _build() {
+  _$OrdersGet200ResponseCurrentOrdersInnerItemsInner _build() {
     final _$result = _$v ??
-        _$OrdersPost200ResponseItemsInner._(
-          productId: BuiltValueNullFieldError.checkNotNull(
-              productId, r'OrdersPost200ResponseItemsInner', 'productId'),
-          quantity: BuiltValueNullFieldError.checkNotNull(
-              quantity, r'OrdersPost200ResponseItemsInner', 'quantity'),
+        _$OrdersGet200ResponseCurrentOrdersInnerItemsInner._(
+          productId: BuiltValueNullFieldError.checkNotNull(productId,
+              r'OrdersGet200ResponseCurrentOrdersInnerItemsInner', 'productId'),
+          quantity: BuiltValueNullFieldError.checkNotNull(quantity,
+              r'OrdersGet200ResponseCurrentOrdersInnerItemsInner', 'quantity'),
           priceAtPurchase: BuiltValueNullFieldError.checkNotNull(
               priceAtPurchase,
-              r'OrdersPost200ResponseItemsInner',
+              r'OrdersGet200ResponseCurrentOrdersInnerItemsInner',
               'priceAtPurchase'),
-          name: name,
-          description: description,
+          name: BuiltValueNullFieldError.checkNotNull(name,
+              r'OrdersGet200ResponseCurrentOrdersInnerItemsInner', 'name'),
+          description: BuiltValueNullFieldError.checkNotNull(
+              description,
+              r'OrdersGet200ResponseCurrentOrdersInnerItemsInner',
+              'description'),
         );
     replace(_$result);
     return _$result;

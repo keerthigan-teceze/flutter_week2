@@ -73,6 +73,7 @@ Class | Method | HTTP request | Description
 [*CartApi*](doc/CartApi.md) | [**cartItemsPost**](doc/CartApi.md#cartitemspost) | **POST** /cart/items | Add item to cart
 [*CartApi*](doc/CartApi.md) | [**cartItemsProductIdDelete**](doc/CartApi.md#cartitemsproductiddelete) | **DELETE** /cart/items/{productId} | Remove item from cart
 [*CartApi*](doc/CartApi.md) | [**cartItemsProductIdPut**](doc/CartApi.md#cartitemsproductidput) | **PUT** /cart/items/{productId} | Update cart item quantity
+[*OrderApi*](doc/OrderApi.md) | [**ordersGet**](doc/OrderApi.md#ordersget) | **GET** /orders | Get the authenticated user&#39;s orders
 [*OrderApi*](doc/OrderApi.md) | [**ordersPost**](doc/OrderApi.md#orderspost) | **POST** /orders | Create a new order
 [*PaymentApi*](doc/PaymentApi.md) | [**webhooksPaymentsMockPost**](doc/PaymentApi.md#webhookspaymentsmockpost) | **POST** /webhooks/payments/mock | Mock payment-provider webhook for local testing
 [*PaymentApi*](doc/PaymentApi.md) | [**webhooksPaymentsPost**](doc/PaymentApi.md#webhookspaymentspost) | **POST** /webhooks/payments | Payment webhook endpoint
@@ -102,6 +103,9 @@ Class | Method | HTTP request | Description
  - [CartGet200ResponseItemsInner](doc/CartGet200ResponseItemsInner.md)
  - [CartItemsPostRequest](doc/CartItemsPostRequest.md)
  - [CartItemsProductIdPutRequest](doc/CartItemsProductIdPutRequest.md)
+ - [OrdersGet200Response](doc/OrdersGet200Response.md)
+ - [OrdersGet200ResponseCurrentOrdersInner](doc/OrdersGet200ResponseCurrentOrdersInner.md)
+ - [OrdersGet200ResponseCurrentOrdersInnerItemsInner](doc/OrdersGet200ResponseCurrentOrdersInnerItemsInner.md)
  - [OrdersPost200Response](doc/OrdersPost200Response.md)
  - [OrdersPost200ResponseItemsInner](doc/OrdersPost200ResponseItemsInner.md)
  - [OrdersPostRequest](doc/OrdersPostRequest.md)

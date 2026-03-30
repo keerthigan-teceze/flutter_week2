@@ -16,6 +16,9 @@ doc/CartGet200ResponseItemsInner.md
 doc/CartItemsPostRequest.md
 doc/CartItemsProductIdPutRequest.md
 doc/OrderApi.md
+doc/OrdersGet200Response.md
+doc/OrdersGet200ResponseCurrentOrdersInner.md
+doc/OrdersGet200ResponseCurrentOrdersInnerItemsInner.md
 doc/OrdersPost200Response.md
 doc/OrdersPost200ResponseItemsInner.md
 doc/OrdersPostRequest.md
@@ -66,6 +69,9 @@ lib/src/model/cart_get200_response_items_inner.dart
 lib/src/model/cart_items_post_request.dart
 lib/src/model/cart_items_product_id_put_request.dart
 lib/src/model/date.dart
+lib/src/model/orders_get200_response.dart
+lib/src/model/orders_get200_response_current_orders_inner.dart
+lib/src/model/orders_get200_response_current_orders_inner_items_inner.dart
 lib/src/model/orders_post200_response.dart
 lib/src/model/orders_post200_response_items_inner.dart
 lib/src/model/orders_post_request.dart
@@ -87,11 +93,6 @@ lib/src/model/webhooks_payments_post_request_data_object.dart
 lib/src/model/webhooks_payments_post_request_data_object_metadata.dart
 lib/src/serializers.dart
 pubspec.yaml
-test/auth_register_post400_response_issues_inner_test.dart
-test/auth_register_post400_response_test.dart
-test/auth_register_post409_response_test.dart
-test/auth_register_post_request_test.dart
-test/cart_items_post_request_test.dart
-test/users_id_delete200_response_test.dart
-test/users_id_put400_response_test.dart
-test/webhooks_payments_mock_post500_response_test.dart
+test/orders_get200_response_current_orders_inner_items_inner_test.dart
+test/orders_get200_response_current_orders_inner_test.dart
+test/orders_get200_response_test.dart

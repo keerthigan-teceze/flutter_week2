@@ -1,4 +1,4 @@
-# ecommerce_api_client.model.OrdersPost200ResponseItemsInner
+# ecommerce_api_client.model.OrdersGet200ResponseCurrentOrdersInnerItemsInner
 
 ## Load the model package
 ```dart
@@ -11,8 +11,8 @@ Name | Type | Description | Notes
 **productId** | **String** |  | 
 **quantity** | **int** |  | 
 **priceAtPurchase** | **num** |  | 
-**name** | **String** |  | [optional] 
-**description** | **String** |  | [optional] 
+**name** | **String** |  | 
+**description** | **String** |  | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

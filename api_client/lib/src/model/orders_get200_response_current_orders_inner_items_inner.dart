@@ -6,9 +6,9 @@
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
-part 'orders_post200_response_items_inner.g.dart';
+part 'orders_get200_response_current_orders_inner_items_inner.g.dart';
 
-/// OrdersPost200ResponseItemsInner
+/// OrdersGet200ResponseCurrentOrdersInnerItemsInner
 ///
 /// Properties:
 /// * [productId]
@@ -17,10 +17,10 @@ part 'orders_post200_response_items_inner.g.dart';
 /// * [name]
 /// * [description]
 @BuiltValue()
-abstract class OrdersPost200ResponseItemsInner
+abstract class OrdersGet200ResponseCurrentOrdersInnerItemsInner
     implements
-        Built<OrdersPost200ResponseItemsInner,
-            OrdersPost200ResponseItemsInnerBuilder> {
+        Built<OrdersGet200ResponseCurrentOrdersInnerItemsInner,
+            OrdersGet200ResponseCurrentOrdersInnerItemsInnerBuilder> {
   @BuiltValueField(wireName: r'productId')
   String get productId;
 
@@ -31,39 +31,44 @@ abstract class OrdersPost200ResponseItemsInner
   num get priceAtPurchase;
 
   @BuiltValueField(wireName: r'name')
-  String? get name;
+  String get name;
 
   @BuiltValueField(wireName: r'description')
-  String? get description;
+  String get description;
 
-  OrdersPost200ResponseItemsInner._();
+  OrdersGet200ResponseCurrentOrdersInnerItemsInner._();
 
-  factory OrdersPost200ResponseItemsInner(
-          [void updates(OrdersPost200ResponseItemsInnerBuilder b)]) =
-      _$OrdersPost200ResponseItemsInner;
+  factory OrdersGet200ResponseCurrentOrdersInnerItemsInner(
+          [void updates(
+              OrdersGet200ResponseCurrentOrdersInnerItemsInnerBuilder b)]) =
+      _$OrdersGet200ResponseCurrentOrdersInnerItemsInner;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(OrdersPost200ResponseItemsInnerBuilder b) => b;
+  static void _defaults(
+          OrdersGet200ResponseCurrentOrdersInnerItemsInnerBuilder b) =>
+      b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<OrdersPost200ResponseItemsInner> get serializer =>
-      _$OrdersPost200ResponseItemsInnerSerializer();
+  static Serializer<OrdersGet200ResponseCurrentOrdersInnerItemsInner>
+      get serializer =>
+          _$OrdersGet200ResponseCurrentOrdersInnerItemsInnerSerializer();
 }
 
-class _$OrdersPost200ResponseItemsInnerSerializer
-    implements PrimitiveSerializer<OrdersPost200ResponseItemsInner> {
+class _$OrdersGet200ResponseCurrentOrdersInnerItemsInnerSerializer
+    implements
+        PrimitiveSerializer<OrdersGet200ResponseCurrentOrdersInnerItemsInner> {
   @override
   final Iterable<Type> types = const [
-    OrdersPost200ResponseItemsInner,
-    _$OrdersPost200ResponseItemsInner
+    OrdersGet200ResponseCurrentOrdersInnerItemsInner,
+    _$OrdersGet200ResponseCurrentOrdersInnerItemsInner
   ];
 
   @override
-  final String wireName = r'OrdersPost200ResponseItemsInner';
+  final String wireName = r'OrdersGet200ResponseCurrentOrdersInnerItemsInner';
 
   Iterable<Object?> _serializeProperties(
     Serializers serializers,
-    OrdersPost200ResponseItemsInner object, {
+    OrdersGet200ResponseCurrentOrdersInnerItemsInner object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     yield r'productId';
@@ -81,26 +86,22 @@ class _$OrdersPost200ResponseItemsInnerSerializer
       object.priceAtPurchase,
       specifiedType: const FullType(num),
     );
-    if (object.name != null) {
-      yield r'name';
-      yield serializers.serialize(
-        object.name,
-        specifiedType: const FullType(String),
-      );
-    }
-    if (object.description != null) {
-      yield r'description';
-      yield serializers.serialize(
-        object.description,
-        specifiedType: const FullType(String),
-      );
-    }
+    yield r'name';
+    yield serializers.serialize(
+      object.name,
+      specifiedType: const FullType(String),
+    );
+    yield r'description';
+    yield serializers.serialize(
+      object.description,
+      specifiedType: const FullType(String),
+    );
   }
 
   @override
   Object serialize(
     Serializers serializers,
-    OrdersPost200ResponseItemsInner object, {
+    OrdersGet200ResponseCurrentOrdersInnerItemsInner object, {
     FullType specifiedType = FullType.unspecified,
   }) {
     return _serializeProperties(serializers, object,
@@ -113,7 +114,7 @@ class _$OrdersPost200ResponseItemsInnerSerializer
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
     required List<Object?> serializedList,
-    required OrdersPost200ResponseItemsInnerBuilder result,
+    required OrdersGet200ResponseCurrentOrdersInnerItemsInnerBuilder result,
     required List<Object?> unhandled,
   }) {
     for (var i = 0; i < serializedList.length; i += 2) {
@@ -164,12 +165,12 @@ class _$OrdersPost200ResponseItemsInnerSerializer
   }
 
   @override
-  OrdersPost200ResponseItemsInner deserialize(
+  OrdersGet200ResponseCurrentOrdersInnerItemsInner deserialize(
     Serializers serializers,
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    final result = OrdersPost200ResponseItemsInnerBuilder();
+    final result = OrdersGet200ResponseCurrentOrdersInnerItemsInnerBuilder();
     final serializedList = (serialized as Iterable<Object?>).toList();
     final unhandled = <Object?>[];
     _deserializeProperties(

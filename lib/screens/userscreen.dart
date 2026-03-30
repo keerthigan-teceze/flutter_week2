@@ -1,4 +1,5 @@
 import 'package:ecommerce/repository/cart_repository.dart';
+import 'package:ecommerce/repository/order_repository.dart';
 import 'package:ecommerce/repository/product_repository.dart';
 import 'package:ecommerce/screens/my_cart_screen.dart';
 import 'package:ecommerce/screens/orders_screen.dart';
@@ -16,6 +17,8 @@ class UserHomePageScreen extends StatefulWidget {
 class _UserHomePageScreenState extends State<UserHomePageScreen> {
   final ProductRepository _productRepo = ProductRepository();
   final CartRepository cartRepo = CartRepository();
+  final OrderRepository _orderRepo = OrderRepository();
+
 
   List<Map<String, dynamic>> products = [];
 
@@ -26,6 +29,17 @@ class _UserHomePageScreenState extends State<UserHomePageScreen> {
   void initState() {
     super.initState();
     _fetchProducts();
+  }
+
+  Future <void> createOrder(String productId, int quantity) async {
+    try {
+      await _orderRepo.createOrder(productId,quantity);
+      print("✅ Order created");
+    } catch (e) {
+      throw Exception("❌ Failed to create order: $e");
+
+    }
+
   }
 
   Future<void> _fetchProducts() async {
@@ -148,6 +162,21 @@ class _UserHomePageScreenState extends State<UserHomePageScreen> {
                       ],
                     ),
                   ),
+
+
+                  /// ✅ ORDER NOW ICON
+                  IconButton(
+                    icon: const Icon(Icons.shopping_cart_checkout,
+                        color: Colors.blue, size: 30),
+                    onPressed: () {
+                      createOrder(products[index]["id"], 1);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("✅ Order created")),
+                      );
+
+                    },
+                  ),
+
 
                   // ✅ Add to Cart Icon
                   IconButton(
